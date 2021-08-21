@@ -1,4 +1,4 @@
-import { map, mapObjIndexed, pipe, toPairs } from "ramda"
+import { map, pipe, toPairs } from "ramda"
 
 export enum Stat {
     MA = 'ma',

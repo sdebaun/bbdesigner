@@ -1,5 +1,5 @@
 import { Empty, Card } from "antd";
-import { always, cond, equals, isEmpty, pipe, prop, T } from "ramda";
+import { always, cond, isEmpty, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
@@ -21,7 +21,7 @@ const styleForDropZone: (props: DropProps) => React.CSSProperties =
 
 const PiecesDropZone: React.FC =
     ({children}) => {
-        const [{}, dispatch] = useAppState()
+        const [, dispatch] = useAppState()
 
         const drop = (positional: Positional) =>
             dispatch({type: 'addPiece', positional })

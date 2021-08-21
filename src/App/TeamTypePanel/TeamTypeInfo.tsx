@@ -1,9 +1,7 @@
 import { Card, Col, Row, Statistic } from "antd"
 import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
-import { Panel } from "../components"
 import { Positional, TEAM_TYPES } from "../TeamTypes"
-import { SelectTeamType } from "./SelectTeamType"
 
 const PositionalCard: React.FC<{positional: Positional}> =
     ({positional: item}) => {

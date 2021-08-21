@@ -1,7 +1,7 @@
-import React, {createContext, Dispatch, DispatchWithoutAction, useContext, useReducer, useState} from 'react';
+import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 import { Piece, Positional, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
 import { generateSlug } from 'random-word-slugs'
-import { cond, path, pipe, prop, sort, sortBy } from 'ramda';
+import { pipe, prop, sortBy } from 'ramda';
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey,
