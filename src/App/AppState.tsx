@@ -1,7 +1,7 @@
 import React, {createContext, Dispatch, DispatchWithoutAction, useContext, useReducer, useState} from 'react';
 import { Piece, Positional, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
 import { generateSlug } from 'random-word-slugs'
-import { cond } from 'ramda';
+import { cond, path, pipe, prop, sort, sortBy } from 'ramda';
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey,
@@ -38,7 +38,19 @@ const reducer: AppReducer =
 
     return next
   }
-  
+
+const piecePositionalTitle: (piece: Piece) => string =
+  pipe(prop('positional'), prop('title'))
+
+const pieceTitle: (piece: Piece) => string =
+  prop('title')
+
+const pieceComparator: (piece: Piece) => string =
+  piece =>
+    piecePositionalTitle(piece) + pieceTitle(piece)
+
+const sortPieces = sortBy(pieceComparator)
+
 const reduce: AppReducer =
   (prev, action) => {
     switch (action.type) {
@@ -58,7 +70,7 @@ const reduce: AppReducer =
       case 'addPiece':
         return ({
           ...prev,
-          pieces: [...prev.pieces, makePiece(action.positional)]
+          pieces: sortPieces([...prev.pieces, makePiece(action.positional)])
         })
       default: return prev
     }
