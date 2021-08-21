@@ -46,6 +46,8 @@ const NoPiecesMessage: React.FC =
 const PieceCard: React.FC<{piece: Piece}> =
     ({piece}) =>
         <Card>
+            {piece.title}
+            <br/>
             {piece.positional.title}
         </Card>
 
@@ -53,7 +55,7 @@ const PieceList: React.FC =
     () => {
         const [{pieces}] = useAppState()
         return <>
-            {pieces.map(piece => <PieceCard {...{piece}}/>)}
+            {pieces.map(piece => <PieceCard key={piece.title} {...{piece}}/>)}
         </>
     }
 

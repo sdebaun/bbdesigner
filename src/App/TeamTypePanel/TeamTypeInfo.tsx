@@ -6,11 +6,11 @@ import { Positional, TEAM_TYPES } from "../TeamTypes"
 import { SelectTeamType } from "./SelectTeamType"
 
 const PositionalCard: React.FC<{positional: Positional}> =
-    ({positional}) => {
+    ({positional: item}) => {
         const [{opacity}, ref] = useDrag(
             () => ({
                 type: 'POSITIONAL',
-                item: { positional },
+                item,
                 collect: monitor => ({
                     opacity: monitor.isDragging() ? 0.5 : 1
                 })
@@ -21,7 +21,7 @@ const PositionalCard: React.FC<{positional: Positional}> =
         return (
             <div {...{ref}} style={{ opacity, cursor: 'pointer' }}>
                 <Card>
-                    {positional.title}
+                    {item.title}
                 </Card>
             </div>
         )
