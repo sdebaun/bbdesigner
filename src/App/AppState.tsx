@@ -27,6 +27,7 @@ const makePiece: (positional: Positional) => Piece =
     normalSkills: [],
     doubleSkills: [],
     positional,
+    count: 0
   })
 
 const reducer: AppReducer =

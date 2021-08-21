@@ -55,6 +55,7 @@ export type Piece = {
     positional: Positional,
     normalSkills: SkillName[],
     doubleSkills: SkillName[],
+    count: number,
 }
 
 export type Team = {
@@ -65,13 +66,17 @@ type SkillName =
     | 'Block'
     | 'Tackle'
     | 'Sure Hands'
+    | 'Frenzy'
     | 'Dodge'
     | 'Guard'
+    | 'Stand Firm'
+    | 'Thick Skull'
     | 'MA+1'
     | 'ST+1'
     | 'AG+1'
     | 'AV+1'
     | 'Regeneration'
+    | 'Claw'
 
 export type TeamTypeKey =
     | 'AFTERLIFE_UNITED'
@@ -84,14 +89,20 @@ const SKILLS_GENERAL: SkillWithoutGroup[] = [
     { key: 'Block', description: ''},
     { key: 'Tackle', description: ''},
     { key: 'Sure Hands', description: ''},
+    { key: 'Frenzy', description: ''},
 ]
 
 const SKILLS_STRENGTH: SkillWithoutGroup[] = [
     { key: 'Guard', description: ''},
+    { key: 'Stand Firm', description: ''},
+    { key: 'Thick Skull', description: ''},
 ]
 
 const SKILLS_AGILITY: SkillWithoutGroup[] = [
     { key: 'Dodge', description: ''}
+]
+const SKILLS_MUTATION: SkillWithoutGroup[] = [
+    { key: 'Claw', description: ''}
 ]
 const SKILLS_EXTRAORDINARY: SkillWithoutGroup[] = [
     { key: 'Regeneration', description: ''}
@@ -107,6 +118,7 @@ export const SKILLS_DATA: Skill[] = [
     ...SKILLS_STRENGTH.map(s => ({...s, group: SkillGroup.Strength})),
     ...SKILLS_AGILITY.map(s => ({...s, group: SkillGroup.Agility})),
     ...SKILLS_STAT.map(s => ({...s, group: SkillGroup.Stat})),
+    ...SKILLS_MUTATION.map(s => ({...s, group: SkillGroup.Mutation})),
     ...SKILLS_EXTRAORDINARY.map(s => ({...s, group: SkillGroup.Extraordinary})),
 ]
 
@@ -127,8 +139,33 @@ const AFTERLIFE_UNITED: TeamType = {
             normal: [SkillGroup.General, SkillGroup.Agility],
             double: [SkillGroup.Stat, SkillGroup.Strength, SkillGroup.Passing],
             startingSkills: ['Dodge'],
-            cost: 40,
+            cost: 70,
         },
+        {
+            title: 'Wight',
+            ma: 6, st: 3, ag: 3, av: 8,
+            normal: [SkillGroup.General, SkillGroup.Strength],
+            double: [SkillGroup.Stat, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Block', 'Regeneration'],
+            cost: 90,
+        },
+        {
+            title: 'Flesh Golem',
+            ma: 4, st: 4, ag: 2, av: 9,
+            normal: [SkillGroup.General, SkillGroup.Strength],
+            double: [SkillGroup.Stat, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Regeneration', 'Stand Firm', 'Thick Skull'],
+            cost: 110,
+        },
+        {
+            title: 'Werewolf',
+            ma: 8, st: 3, ag: 3, av: 8,
+            normal: [SkillGroup.General, SkillGroup.Agility],
+            double: [SkillGroup.Stat, SkillGroup.Strength, SkillGroup.Passing],
+            startingSkills: ['Claw', 'Frenzy', 'Regeneration'],
+            cost: 120,
+        },
+
     ],
 }
 
