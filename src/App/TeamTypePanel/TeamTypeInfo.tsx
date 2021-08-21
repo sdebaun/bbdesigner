@@ -1,22 +1,39 @@
-import { Col, Row, Statistic } from "antd"
+import { Card, Col, Row, Statistic } from "antd"
+import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { Panel } from "../components"
 import { Positional, TEAM_TYPES } from "../TeamTypes"
 import { SelectTeamType } from "./SelectTeamType"
 
 const PositionalCard: React.FC<{positional: Positional}> =
-    ({positional: { title, ma, st, ag, av, startingSkills, normal, double, cost }}) =>
-        <div>
-            {title}
-        </div>
+    ({positional}) => {
+        const [{opacity}, ref] = useDrag(
+            () => ({
+                type: 'POSITIONAL',
+                item: { positional },
+                collect: monitor => ({
+                    opacity: monitor.isDragging() ? 0.5 : 1
+                })
+            }),
+            []
+        )
+
+        return (
+            <div {...{ref}} style={{ opacity, cursor: 'pointer' }}>
+                <Card>
+                    {positional.title}
+                </Card>
+            </div>
+        )
+    }
 
 const TeamAssetCosts: React.FC =
     () =>
         <Row>
           <Col span={6}><Statistic title='Team Rerolls' value={60}/></Col>  
-          <Col span={6}><Statistic title='Team Rerolls' value={60}/></Col>  
-          <Col span={6}><Statistic title='Team Rerolls' value={60}/></Col>  
-          <Col span={6}><Statistic title='Team Rerolls' value={60}/></Col>  
+          <Col span={6}><Statistic title='Coaching' value={60}/></Col>  
+          <Col span={6}><Statistic title='Apothecary' value={60}/></Col>  
+          <Col span={6}><Statistic title='Cheerleaders' value={60}/></Col>  
         </Row>
 
 export const TeamTypeInfo: React.FC = () => {
@@ -28,6 +45,6 @@ export const TeamTypeInfo: React.FC = () => {
 
     return <>
         <TeamAssetCosts/>
-        {teamType.positionals.map(positional => <PositionalCard {...{positional}}/>)}
+        {teamType.positionals.map(positional => <PositionalCard key={positional.title} {...{positional}}/>)}
     </>
 }

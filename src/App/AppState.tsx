@@ -1,5 +1,5 @@
 import React, {createContext, Dispatch, DispatchWithoutAction, useContext, useReducer, useState} from 'react';
-import { Piece, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
+import { Piece, Positional, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey,
@@ -7,9 +7,9 @@ export type AppState = {
 }
 
 type AppAction =
-  // | { type: 'selectTeamType', selectedTeamType: keyof typeof TEAM_TYPES }
   | { type: 'selectTeamType', selectedTeamType: string }
   | { type: 'clearTeamType' }
+  | { type: 'addPiece', positional: Positional }
 
 const initialState = {
   pieces: []
@@ -18,6 +18,14 @@ const initialState = {
 export const AppStateContext = createContext<[AppState, Dispatch<AppAction>]>([initialState, () => {}]);
 
 type AppReducer = (prev: AppState, action: AppAction) => AppState
+
+const makePiece: (positional: Positional) => Piece =
+  positional => ({
+    title: '',
+    normalSkills: [],
+    doubleSkills: [],
+    positional,
+  })
 
 const reducer: AppReducer =
   (prev, action) => {
@@ -34,6 +42,11 @@ const reducer: AppReducer =
         return ({
           ...prev,
           selectedTeamType: undefined
+        })
+      case 'addPiece':
+        return ({
+          ...prev,
+          pieces: [...prev.pieces, makePiece(action.positional)]
         })
       default: return prev
     }
