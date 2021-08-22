@@ -1,14 +1,11 @@
-import { Empty, Card, Row, Col, Table, Tag, Select, Button } from "antd";
+import { Empty, Table } from "antd";
 import Column from "antd/lib/table/Column";
-import { count } from "console";
-import { always, cond, isEmpty, map, pipe, prop, sum, T, times } from "ramda";
+import { isEmpty, map, pipe, prop, sum, times } from "ramda";
 import React from "react";
-import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
-import { Panel, SkillGroupTags } from "../components";
-import { SkillTags } from "../components/SkillTags";
+import { Panel } from "../components";
 import { SelectSkills } from "../PiecesPanel/PiecesPanel";
-import { Piece, Positional, SkillGroup, SkillName } from "../TeamTypes";
+import { Piece, SkillGroup, SkillName } from "../TeamTypes";
 
 
 const NoPiecesMessage: React.FC =
@@ -20,58 +17,6 @@ type Stats = {
     ag: number,
     av: number,
 }
-
-const StatsTable: React.FC<Stats> =
-    (stats) => {
-        return <Table bordered dataSource={[stats].map(stat => ({...stat, key: 1}))} size='small' pagination={false} style={{height: '100%'}}>
-                <Column title='MA' dataIndex='ma'/>
-                <Column title='ST' dataIndex='st'/>
-                <Column title='AG' dataIndex='ag'/>
-                <Column title='AV' dataIndex='av'/>
-            </Table>
-    }
-
-const PlayerCardTitle: React.FC<{title: string, subtitle: string}> =
-    ({title, subtitle}) =>
-        <>{title} { subtitle ? <i style={{fontSize: '90%', paddingLeft: '12px'}}>{subtitle}</i> : ''}</>
-
-const PieceCardTitle: React.FC<{piece: Piece}> =
-    ({piece: { title: subtitle, positional: { title }}}) =>
-        <PlayerCardTitle {...{title, subtitle}}/>
-
-const PieceCardExtra: React.FC<{piece: Piece}> =
-    ({piece: { title, count, positional: { cost }}}) => {
-        const [, dispatch] = useAppState()
-
-        const deleteOnClick = () =>
-            dispatch({type: 'deletePiece', title })
-
-        const increaseOnClick = () =>
-            dispatch({type: 'increasePiece', title })
-
-        const decreaseOnClick = () =>
-            dispatch({type: 'decreasePiece', title })
-
-        return (
-            <Row gutter={8}>
-                <Col>
-                    { count > 0 ?
-                        <Button danger shape='circle' size='small' onClick={decreaseOnClick}>-</Button> :
-                        <Button danger shape='circle' size='small' onClick={deleteOnClick}>X</Button>
-                    }
-                </Col>
-                <Col>
-                    <Button type='primary' shape='circle' size='small' onClick={increaseOnClick}>+</Button>
-                </Col>
-                <Col>
-                    {count} @
-                </Col>
-                <Col>
-                    <Tag>{cost}</Tag>
-                </Col>
-            </Row>
-        )
-    }
 
 type PlayerRow = Stats & {
     title: string,
@@ -149,7 +94,7 @@ export const TeamBuildPanel: React.FC = () => {
     return (
             <Panel>
                     {cost > 0 ? <h2>{cost} TV</h2> : ''}
-                    {totalPlayers(pieces) == 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
+                    {totalPlayers(pieces) === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
             </Panel>
     )
 }

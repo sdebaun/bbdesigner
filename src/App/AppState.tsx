@@ -80,27 +80,27 @@ const reduce: AppReducer =
       case 'deletePiece':
         return ({
           ...prev,
-          pieces: sortPieces(filter((p: Piece) => p.title != action.title)(prev.pieces))
+          pieces: sortPieces(filter((p: Piece) => p.title !== action.title)(prev.pieces))
         })
       case 'increasePiece':
           return ({
             ...prev,
-            pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, count: p.count + 1}) : p)(prev.pieces))
+            pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, count: p.count + 1}) : p)(prev.pieces))
           })
       case 'decreasePiece':
           return ({
             ...prev,
-            pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, count: p.count - 1}) : p)(prev.pieces))
+            pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, count: p.count - 1}) : p)(prev.pieces))
           })
       case 'addSkillName':
         return ({
           ...prev,
-          pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, addedSkills: [...p.addedSkills, action.skillName]}) : p)(prev.pieces))
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: [...p.addedSkills, action.skillName]}) : p)(prev.pieces))
         })
       case 'removeSkillName':
         return ({
           ...prev,
-          pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn != action.skillName)}) : p)(prev.pieces))
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn !== action.skillName)}) : p)(prev.pieces))
         })
           
       default: return prev

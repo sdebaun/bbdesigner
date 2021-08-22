@@ -1,10 +1,10 @@
-import { Card, Col, Row, Select, Statistic, Table, Tag } from "antd"
+import { Card, Col, Row, Statistic, Table, Tag } from "antd"
 import Column from "antd/lib/table/Column"
 import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { SkillGroupTags } from "../components"
 import { SkillTags } from "../components/SkillTags"
-import { Positional, SkillGroup, SkillName, TEAM_TYPES } from "../TeamTypes"
+import { Positional, TEAM_TYPES } from "../TeamTypes"
 
 type Stats = {
     ma: number,

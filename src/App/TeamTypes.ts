@@ -134,7 +134,7 @@ export const SKILLS_DATA: Skill[] = [
 ]
 
 export const skillGroupForName = (skillName: SkillName) =>
-    SKILLS_DATA.find(skill => skill.key == skillName)?.group || SkillGroup.General
+    SKILLS_DATA.find(skill => skill.key === skillName)?.group || SkillGroup.General
 
 const AFTERLIFE_UNITED: TeamType = {
     title: 'Afterlife United',

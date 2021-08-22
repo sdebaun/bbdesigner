@@ -1,14 +1,11 @@
 import { Empty, Card, Row, Col, Table, Tag, Select, Button } from "antd";
-import { OptionType } from "antd/lib/select";
 import Column from "antd/lib/table/Column";
-import { count } from "console";
-import { always, cond, equals, isEmpty, prop, T } from "ramda";
+import { always, cond, isEmpty, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { Panel, SkillGroupTags } from "../components";
-import { SkillTags } from "../components/SkillTags";
-import { Piece, Positional, SkillGroup, skillGroupForName, SkillName, SKILLS_AGILITY, SKILLS_DATA, SKILLS_GENERAL, SKILLS_MUTATION, SKILLS_STAT, SKILLS_STRENGTH } from "../TeamTypes";
+import { Piece, Positional, SkillGroup, skillGroupForName, SkillName, SKILLS_AGILITY, SKILLS_GENERAL, SKILLS_MUTATION, SKILLS_STAT, SKILLS_STRENGTH } from "../TeamTypes";
 
 const defaultStyle: React.CSSProperties = { minHeight: '40px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: 'green' })
@@ -46,14 +43,6 @@ const PiecesDropZone: React.FC =
 
 const NoPiecesMessage: React.FC =
     () => <Empty description='Drag a position from the left to create a piece'/>
-
-// const PieceCard: React.FC<{piece: Piece}> =
-//     ({piece}) =>
-//         <Card>
-//             {piece.title}
-//             <br/>
-//             {piece.positional.title}
-//         </Card>
 
 type Stats = {
     ma: number,
@@ -113,21 +102,6 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
             </Row>
         )
     }
-
-const SelectSkillTag: React.FC<{skillName: string, closable: boolean, color: string}> =
-    ({skillName, closable, color}) =>
-        <Tag {...{closable, color}}>
-            {skillName}
-        </Tag>
-
-const SelectSkillsOptionGroup: React.FC<{skillNames: SkillName[], color: string}> =
-    ({skillNames, color = 'black'}) => <>
-        <Select.OptGroup label={<b style={{color}}>General</b>}>
-            {skillNames.map((key) => (
-                <Select.Option {...{key, value: key}}>{key}</Select.Option>
-            ))}
-        </Select.OptGroup>
-    </>
 
 export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[], addedSkills: SkillName[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
     ({title, startingSkills, addedSkills, normal, double, disabled = false}) => {
