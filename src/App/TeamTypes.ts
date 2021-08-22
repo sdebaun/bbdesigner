@@ -8,13 +8,13 @@ export enum Stat {
 }
 
 export enum SkillGroup {
-    General = 'general',
-    Strength = 'strength',
-    Agility = 'agility',
-    Passing = 'passing',
-    Mutation = 'mutation',
-    Extraordinary = 'extraordinary',
-    Stat = 'stat',
+    General = 'General',
+    Strength = 'Strength',
+    Agility = 'Agility',
+    Passing = 'Passing',
+    Mutation = 'Mutation',
+    Extraordinary = 'Extraordinary',
+    Stat = 'Stat',
 }
 
 type SkillWithoutGroup = {
@@ -53,8 +53,7 @@ export type TeamType = {
 export type Piece = {
     title: string,
     positional: Positional,
-    normalSkills: SkillName[],
-    doubleSkills: SkillName[],
+    addedSkills: SkillName[],
     count: number,
 }
 
@@ -62,7 +61,7 @@ export type Team = {
     pieces: Piece[]
 }
 
-type SkillName =
+export type SkillName =
     | 'Block'
     | 'Tackle'
     | 'Sure Hands'
@@ -71,6 +70,7 @@ type SkillName =
     | 'Guard'
     | 'Stand Firm'
     | 'Thick Skull'
+    | 'Mighty Blow'
     | 'MA+1'
     | 'ST+1'
     | 'AG+1'
@@ -85,34 +85,45 @@ export type TeamTypeKey =
 export type TeamTypeDictionary = { [key in TeamTypeKey]: TeamType }
 // export type TeamTypeDictionary = { [key: string]: TeamType }
 
-const SKILLS_GENERAL: SkillWithoutGroup[] = [
+const _SKILLS_GENERAL: SkillWithoutGroup[] = [
     { key: 'Block', description: ''},
     { key: 'Tackle', description: ''},
     { key: 'Sure Hands', description: ''},
     { key: 'Frenzy', description: ''},
 ]
+export const SKILLS_GENERAL = _SKILLS_GENERAL.map(s => ({...s, group: SkillGroup.General}))
 
-const SKILLS_STRENGTH: SkillWithoutGroup[] = [
+const _SKILLS_STRENGTH: SkillWithoutGroup[] = [
     { key: 'Guard', description: ''},
     { key: 'Stand Firm', description: ''},
     { key: 'Thick Skull', description: ''},
+    { key: 'Mighty Blow', description: ''},
 ]
+export const SKILLS_STRENGTH = _SKILLS_STRENGTH.map(s => ({...s, group: SkillGroup.Strength}))
 
-const SKILLS_AGILITY: SkillWithoutGroup[] = [
+const _SKILLS_AGILITY: SkillWithoutGroup[] = [
     { key: 'Dodge', description: ''}
 ]
-const SKILLS_MUTATION: SkillWithoutGroup[] = [
+export const SKILLS_AGILITY = _SKILLS_AGILITY.map(s => ({...s, group: SkillGroup.Agility}))
+
+const _SKILLS_MUTATION: SkillWithoutGroup[] = [
     { key: 'Claw', description: ''}
 ]
-const SKILLS_EXTRAORDINARY: SkillWithoutGroup[] = [
+export const SKILLS_MUTATION = _SKILLS_MUTATION.map(s => ({...s, group: SkillGroup.Mutation}))
+
+const _SKILLS_EXTRAORDINARY: SkillWithoutGroup[] = [
     { key: 'Regeneration', description: ''}
 ]
-const SKILLS_STAT: SkillWithoutGroup[] = [
+export const SKILLS_EXTRAORDINARY = _SKILLS_EXTRAORDINARY.map(s => ({...s, group: SkillGroup.Extraordinary}))
+
+const _SKILLS_STAT: SkillWithoutGroup[] = [
     { key: 'MA+1', description: '+1 to movement', increase: Stat.MA },
     { key: 'ST+1', description: '+1 to strength', increase: Stat.ST },
     { key: 'AG+1', description: '+1 to agility', increase: Stat.AG },
     { key: 'AV+1', description: '+1 to armor value', increase: Stat.AV },
 ]
+export const SKILLS_STAT = _SKILLS_STAT.map(s => ({...s, group: SkillGroup.Stat}))
+
 export const SKILLS_DATA: Skill[] = [
     ...SKILLS_GENERAL.map(s => ({...s, group: SkillGroup.General})),
     ...SKILLS_STRENGTH.map(s => ({...s, group: SkillGroup.Strength})),
@@ -121,6 +132,9 @@ export const SKILLS_DATA: Skill[] = [
     ...SKILLS_MUTATION.map(s => ({...s, group: SkillGroup.Mutation})),
     ...SKILLS_EXTRAORDINARY.map(s => ({...s, group: SkillGroup.Extraordinary})),
 ]
+
+export const skillGroupForName = (skillName: SkillName) =>
+    SKILLS_DATA.find(skill => skill.key == skillName)?.group || SkillGroup.General
 
 const AFTERLIFE_UNITED: TeamType = {
     title: 'Afterlife United',
@@ -131,6 +145,14 @@ const AFTERLIFE_UNITED: TeamType = {
             normal: [SkillGroup.General],
             double: [SkillGroup.Stat, SkillGroup.Strength, SkillGroup.Agility, SkillGroup.Passing],
             startingSkills: ['Regeneration'],
+            cost: 40,
+        },
+        {
+            title: 'Skeleton',
+            ma: 5, st: 3, ag: 2, av: 7,
+            normal: [SkillGroup.General],
+            double: [SkillGroup.Stat, SkillGroup.Strength, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Regeneration', 'Thick Skull'],
             cost: 40,
         },
         {
@@ -164,6 +186,14 @@ const AFTERLIFE_UNITED: TeamType = {
             double: [SkillGroup.Stat, SkillGroup.Strength, SkillGroup.Passing],
             startingSkills: ['Claw', 'Frenzy', 'Regeneration'],
             cost: 120,
+        },
+        {
+            title: 'Mummy',
+            ma: 3, st: 5, ag: 1, av: 9,
+            normal: [SkillGroup.Strength],
+            double: [SkillGroup.General, SkillGroup.Stat, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Mighty Blow', 'Regeneration'],
+            cost: 110,
         },
 
     ],

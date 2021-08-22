@@ -1,12 +1,14 @@
 import { Empty, Card, Row, Col, Table, Tag, Select, Button } from "antd";
+import { OptionType } from "antd/lib/select";
 import Column from "antd/lib/table/Column";
 import { count } from "console";
-import { always, cond, isEmpty, prop, T } from "ramda";
+import { always, cond, equals, isEmpty, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
-import { Panel } from "../components";
-import { Piece, Positional } from "../TeamTypes";
+import { Panel, SkillGroupTags } from "../components";
+import { SkillTags } from "../components/SkillTags";
+import { Piece, Positional, SkillGroup, skillGroupForName, SkillName, SKILLS_AGILITY, SKILLS_DATA, SKILLS_GENERAL, SKILLS_MUTATION, SKILLS_STAT, SKILLS_STRENGTH } from "../TeamTypes";
 
 const defaultStyle: React.CSSProperties = { minHeight: '40px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: 'green' })
@@ -70,44 +72,142 @@ const StatsTable: React.FC<Stats> =
             </Table>
     }
 
-const PositionalCardTitle: React.FC<{positional: Positional}> =
-    ({positional}) =>
-        <>{positional.title}</>
-
 const PlayerCardTitle: React.FC<{title: string, subtitle: string}> =
     ({title, subtitle}) =>
-        <>{title} { subtitle ? <i style={{fontSize: '90%', paddingLeft: '12px'}}>{subtitle}</i> : ''}</>
+        <><span style={{fontSize: '100%'}}>{title}</span> { subtitle ? <><br/><b style={{fontSize: '90%'}}>{subtitle}</b></> : ''}</>
 
 const PieceCardTitle: React.FC<{piece: Piece}> =
     ({piece: { title: subtitle, positional: { title }}}) =>
         <PlayerCardTitle {...{title, subtitle}}/>
 
-// const PieceCardExtra: React.FC<{piece: Piece}> =
-//     ({piece: { count, positional: { cost }}}) =>
-//         <>
-//             <Button danger shape='circle' size='small'>-</Button>
-//             <Button type='primary' shape='circle' size='small'>+</Button>
-//             {count}
-//             @
-//             <Tag>{cost}</Tag>
-//         </>
-
 const PieceCardExtra: React.FC<{piece: Piece}> =
-    ({piece: { count, positional: { cost }}}) =>
-        <Row gutter={8}>
-            <Col>
-                <Button danger shape='circle' size='small'>-</Button>
-            </Col>
-            <Col>
-                <Button type='primary' shape='circle' size='small'>+</Button>
-            </Col>
-            <Col>
-                {count} @
-            </Col>
-            <Col>
-                <Tag>{cost}</Tag>
-            </Col>
-        </Row>
+    ({piece: { title, count, positional: { cost }}}) => {
+        const [, dispatch] = useAppState()
+
+        const deleteOnClick = () =>
+            dispatch({type: 'deletePiece', title })
+
+        const increaseOnClick = () =>
+            dispatch({type: 'increasePiece', title })
+
+        const decreaseOnClick = () =>
+            dispatch({type: 'decreasePiece', title })
+
+        return (
+            <Row gutter={8}>
+                <Col>
+                    { count > 0 ?
+                        <Button danger shape='circle' size='small' onClick={decreaseOnClick}>-</Button> :
+                        <Button danger shape='circle' size='small' onClick={deleteOnClick}>X</Button>
+                    }
+                </Col>
+                <Col>
+                    <Button type='primary' shape='circle' size='small' onClick={increaseOnClick}>+</Button>
+                </Col>
+                <Col>
+                    {count} @
+                </Col>
+                <Col>
+                    <Tag>{cost}</Tag>
+                </Col>
+            </Row>
+        )
+    }
+
+const SelectSkillTag: React.FC<{skillName: string, closable: boolean, color: string}> =
+    ({skillName, closable, color}) =>
+        <Tag {...{closable, color}}>
+            {skillName}
+        </Tag>
+
+const SelectSkillsOptionGroup: React.FC<{skillNames: SkillName[], color: string}> =
+    ({skillNames, color = 'black'}) => <>
+        <Select.OptGroup label={<b style={{color}}>General</b>}>
+            {skillNames.map((key) => (
+                <Select.Option {...{key, value: key}}>{key}</Select.Option>
+            ))}
+        </Select.OptGroup>
+    </>
+
+export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[], addedSkills: SkillName[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
+    ({title, startingSkills, addedSkills, normal, double, disabled = false}) => {
+        const [, dispatch] = useAppState()
+
+        const value = [...startingSkills, ...addedSkills]
+
+        const selectedSkillNames = [...startingSkills, ...addedSkills]
+
+        const generalSkillOptions = SKILLS_GENERAL
+            .map(skill => skill.key)
+            .filter(skillName => !selectedSkillNames.includes(skillName))
+        const strengthSkillOptions = SKILLS_STRENGTH
+            .map(skill => skill.key)
+            .filter(skillName => !selectedSkillNames.includes(skillName))
+        const agilitySkillOptions = SKILLS_AGILITY
+            .map(skill => skill.key)
+            .filter(skillName => !selectedSkillNames.includes(skillName))
+        // const passingSkillOptions = SKILLS_PASSING
+        //     .map(skill => skill.key)
+        //     .filter(skillName => !selectedSkillNames.includes(skillName))
+        const mutationSkillOptions = SKILLS_MUTATION
+            .map(skill => skill.key)
+            .filter(skillName => !selectedSkillNames.includes(skillName))
+        const statSkillOptions = SKILLS_STAT
+            .map(skill => skill.key)
+            .filter(skillName => !selectedSkillNames.includes(skillName))
+                
+        const colorForSkillGroup: (skillGroup: SkillGroup) => string = cond([
+            [(skillGroup) => normal.includes(skillGroup), always('green')],
+            [(skillGroup) => double.includes(skillGroup), always('orange')],
+            [T, always('black')]
+        ])
+
+        const colorForSkillName: (skillName: SkillName) => string = cond([
+            [skillName => startingSkills.includes(skillName), always('')],
+            [skillName => normal.includes(skillGroupForName(skillName)), always('green')],
+            [skillName => double.includes(skillGroupForName(skillName)), always('orange')],
+            [T, always('')]
+        ])
+
+        const onSelect = (skillName: SkillName) =>
+            dispatch({type: 'addSkillName', title, skillName})
+
+        const onClose = (skillName: SkillName) =>
+            dispatch({type: 'removeSkillName', title, skillName})
+
+        return (
+            <Select
+                value={value}
+                mode='multiple'
+                size='middle'
+                bordered={false}
+                style={{width: '100%', margin: -6}}
+                tagRender={({value}) =>
+                    <Tag onClose={() => onClose(value as SkillName)} closable={!startingSkills.includes(value as SkillName) && !disabled} color={colorForSkillName(value as SkillName)}>{value}</Tag>
+                }
+                onSelect={onSelect}
+                disabled={disabled}
+                >
+                    {/* <SelectSkillsOptionGroup skillNames={generalSkillOptions} color={colorFor(SkillGroup.General)}/> */}
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.General)}}>General</b>}>
+                        {generalSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
+                    </Select.OptGroup>
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Strength)}}>Strength</b>}>
+                        {strengthSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
+                    </Select.OptGroup>
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Agility)}}>Agility</b>}>
+                        {agilitySkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
+                    </Select.OptGroup>
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Passing)}}>Passing</b>}>
+                        {mutationSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
+                    </Select.OptGroup>
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Stat)}}>Stat</b>}>
+                        {statSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
+                    </Select.OptGroup>
+
+            </Select>
+        )
+    }
 
 const PieceCard: React.FC<{piece: Piece}> =
     ({piece}) => {
@@ -119,23 +219,18 @@ const PieceCard: React.FC<{piece: Piece}> =
                         </Col>
                         <Col span={14}>
                             <div style={{ padding: '6px 0'}}>
-                                <Tag color='green'>G</Tag>
-                                <Tag color='green'>S</Tag>
-                                <Tag color='orange'>A</Tag>
-                                <Tag color='orange'>P</Tag>
-                                <Tag color='orange'>M</Tag>
+                                <SkillGroupTags positional={piece.positional}/>
                             </div>
                             <div>
-                                {piece.positional.startingSkills.map(skill => <Tag>{skill}</Tag>)}
+                                <SelectSkills
+                                    title={piece.title}
+                                    startingSkills={piece.positional.startingSkills}
+                                    addedSkills={piece.addedSkills}
+                                    normal={piece.positional.normal}
+                                    double={piece.positional.double}
+                                    />
                             </div>
                         </Col>                            
-                    </Row>
-                    <Row gutter={12} style={{padding: 0}}>
-                            <Select mode='tags' placeholder='Add skills...' defaultValue={[]} size='middle' bordered={false} style={{width: '100%'}}>
-                                <Select.Option value='Block'>Block</Select.Option>
-                                <Select.Option value='Tackle'>Tackle</Select.Option>
-                                <Select.Option value='Sure Hands'>Sure Hands</Select.Option>
-                            </Select>
                     </Row>
                 </Card>
         )

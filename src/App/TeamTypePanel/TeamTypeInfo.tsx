@@ -2,7 +2,9 @@ import { Card, Col, Row, Select, Statistic, Table, Tag } from "antd"
 import Column from "antd/lib/table/Column"
 import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
-import { Positional, TEAM_TYPES } from "../TeamTypes"
+import { SkillGroupTags } from "../components"
+import { SkillTags } from "../components/SkillTags"
+import { Positional, SkillGroup, SkillName, TEAM_TYPES } from "../TeamTypes"
 
 type Stats = {
     ma: number,
@@ -24,7 +26,7 @@ const StatsTable: React.FC<Stats> =
 const PositionalCardTitle: React.FC<{positional: Positional}> =
     ({positional}) =>
         <>{positional.title}</>
-    
+
 const PositionalCard: React.FC<{positional: Positional}> =
     ({positional}) => {
         const [{opacity}, ref] = useDrag(
@@ -47,20 +49,11 @@ const PositionalCard: React.FC<{positional: Positional}> =
                         </Col>
                         <Col span={14}>
                             <div style={{ padding: '6px 0'}}>
-                                <Tag color='green'>G</Tag>
-                                <Tag color='green'>S</Tag>
-                                <Tag color='orange'>A</Tag>
-                                <Tag color='orange'>P</Tag>
-                                <Tag color='orange'>M</Tag>
+                                <SkillGroupTags {...{positional}}/>
                             </div>
                             <div>
-                                {positional.startingSkills.map(skill => <Tag>{skill}</Tag>)}
+                                <SkillTags skillNames={positional.startingSkills} color=''/>
                             </div>
-                            {/* <Select open={false} mode='tags' defaultValue={['Block', 'Tackle', 'Sure Hands']} bordered={false} size='small'>
-                                <Select.Option value='Block'>Block</Select.Option>
-                                <Select.Option value='Tackle'>Tackle</Select.Option>
-                                <Select.Option value='Sure Hands'>Sure Hands</Select.Option>
-                            </Select> */}
                         </Col>
                     </Row>
                 </Card>

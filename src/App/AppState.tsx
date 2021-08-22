@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Positional, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
+import { Piece, Positional, SkillName, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
 import { generateSlug } from 'random-word-slugs'
-import { pipe, prop, sortBy } from 'ramda';
+import { filter, map, pipe, prop, sortBy } from 'ramda';
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey,
@@ -12,6 +12,11 @@ type AppAction =
   | { type: 'selectTeamType', selectedTeamType: string }
   | { type: 'clearTeamType' }
   | { type: 'addPiece', positional: Positional }
+  | { type: 'deletePiece', title: string }
+  | { type: 'increasePiece', title: string }
+  | { type: 'decreasePiece', title: string }
+  | { type: 'addSkillName', title: string, skillName: SkillName }
+  | { type: 'removeSkillName', title: string, skillName: SkillName }
 
 const initialState = {
   pieces: []
@@ -24,8 +29,7 @@ type AppReducer = (prev: AppState, action: AppAction) => AppState
 const makePiece: (positional: Positional) => Piece =
   positional => ({
     title: generateSlug(2),
-    normalSkills: [],
-    doubleSkills: [],
+    addedSkills: [],
     positional,
     count: 0
   })
@@ -73,6 +77,32 @@ const reduce: AppReducer =
           ...prev,
           pieces: sortPieces([...prev.pieces, makePiece(action.positional)])
         })
+      case 'deletePiece':
+        return ({
+          ...prev,
+          pieces: sortPieces(filter((p: Piece) => p.title != action.title)(prev.pieces))
+        })
+      case 'increasePiece':
+          return ({
+            ...prev,
+            pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, count: p.count + 1}) : p)(prev.pieces))
+          })
+      case 'decreasePiece':
+          return ({
+            ...prev,
+            pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, count: p.count - 1}) : p)(prev.pieces))
+          })
+      case 'addSkillName':
+        return ({
+          ...prev,
+          pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, addedSkills: [...p.addedSkills, action.skillName]}) : p)(prev.pieces))
+        })
+      case 'removeSkillName':
+        return ({
+          ...prev,
+          pieces: sortPieces(map((p: Piece) => p.title == action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn != action.skillName)}) : p)(prev.pieces))
+        })
+          
       default: return prev
     }
   }
