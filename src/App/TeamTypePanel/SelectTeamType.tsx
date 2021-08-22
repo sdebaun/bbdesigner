@@ -1,6 +1,6 @@
 import { Select } from "antd"
 import { useAppState } from "../AppState"
-import { TEAM_TYPE_SELECT_OPTIONS } from "../TeamTypes"
+import { TEAM_TYPE_SELECT_OPTIONS } from "../models"
 
 export const SelectTeamType: React.FC = () => {
     const [{selectedTeamType: value}, dispatch] = useAppState()

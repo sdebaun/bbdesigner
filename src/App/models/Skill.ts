@@ -1,6 +1,6 @@
 import { always, concat, cond, equals, flatten, map, pipe, T } from "ramda"
 
-export enum SkillGroupName {
+export enum SkillGroup {
     General = 'General',
     Strength = 'Strength',
     Agility = 'Agility',
@@ -19,7 +19,7 @@ export enum SkillGroupName {
 //     | 'Extraordinary'
 //     | 'Stat'
 
-export type GeneralSkillName =
+export type GeneralSkill =
     | 'Block'
     | 'Dauntless'
     | 'Dirty Player'
@@ -35,7 +35,7 @@ export type GeneralSkillName =
     | 'Tackle'
     | 'Wrestle'
 
-export const General: GeneralSkillName[] = [
+export const General: GeneralSkill[] = [
     'Block',
     'Dauntless',
     'Dirty Player',
@@ -52,7 +52,7 @@ export const General: GeneralSkillName[] = [
     'Wrestle',
 ]
 
-export type StrengthSkillName =
+export type StrengthSkill =
     | 'Break Tackle'
     | 'Grab'
     | 'Guard'
@@ -64,7 +64,7 @@ export type StrengthSkillName =
     | 'Strong Arm'
     | 'Thick Skull'
 
-export const Strength: StrengthSkillName[] = [
+export const Strength: StrengthSkill[] = [
     'Break Tackle',
     'Grab',
     'Guard',
@@ -77,7 +77,7 @@ export const Strength: StrengthSkillName[] = [
     'Thick Skull',
 ]
 
-export type AgilitySkillName =
+export type AgilitySkill =
     | 'Catch'
     | 'Diving Catch'
     | 'Diving Tackle'
@@ -89,55 +89,103 @@ export type AgilitySkillName =
     | 'Sprint'
     | 'Sure Feet'
 
-export const Agility: AgilitySkillName[] = [
+export const Agility: AgilitySkill[] = [
 
 ]
 
-export type PassingSkillName =
+export type PassingSkill =
     | 'Accurate'
 
-export const Passing: PassingSkillName[] = [
+export const Passing: PassingSkill[] = [
     'Accurate',
 ]
 
-export type MutationSkillName =
-    | ''
+export type MutationSkill =
+    | 'Big Hand'
+    | 'Claw'
+    | 'Disturbing Presence'
+    | 'Extra Arms'
+    | 'Foul Appearance'
+    | 'Horns'
+    | 'Prehensile Tail'
+    | 'Tentacles'
+    | 'Two Heads'
+    | 'Very Long Legs'
 
-export const Mutation: MutationSkillName[] = [
-    ''
+export const Mutation: MutationSkill[] = [
+    'Big Hand',
+    'Claw',
+    'Disturbing Presence',
+    'Extra Arms',
+    'Foul Appearance',
+    'Horns',
+    'Prehensile Tail',
+    'Tentacles',
+    'Two Heads',
+    'Very Long Legs',
 ]
 
-export type ExtraordinarySkillName =
-    | ''
+export type ExtraordinarySkill =
+    | 'Always Hungry'
+    | 'Animosity'
+    | 'Ball and Chain'
+    | 'Blood List'
+    | 'Bombadier'
+    | 'Bone-Head'
+    | 'Chainsaw'
+    | 'Decay'
+    | 'Hypnotic Gaze'
+    | 'Loner'
+    | 'Monstrous Mouth'
+    | 'No Hands'
+    | 'Nurgles Rot'
+    | 'Really Stupid'
+    | 'Regeneration'
+    | 'Right Stuff'
 
-export const Extraordinary: ExtraordinarySkillName[] = [
-    ''
+export const Extraordinary: ExtraordinarySkill[] = [
+    'Always Hungry',
+    'Animosity',
+    'Ball and Chain',
+    'Blood List',
+    'Bombadier',
+    'Bone-Head',
+    'Chainsaw',
+    'Decay',
+    'Hypnotic Gaze',
+    'Loner',
+    'Monstrous Mouth',
+    'No Hands',
+    'Nurgles Rot',
+    'Really Stupid',
+    'Regeneration',
+    'Right Stuff'
 ]
 
-export type IncreaseSkillName =
+export type IncreaseSkill =
     | 'MA+'
     | 'ST+'
     | 'AG+'
     | 'AV+'
 
-export const Increase: IncreaseSkillName[] = [
+export const Increase: IncreaseSkill[] = [
     'MA+',
     'ST+',
     'AG+',
     'AV+',
 ]
 
-export type SkillName =
-| GeneralSkillName
-| AgilitySkillName
-| StrengthSkillName
-| PassingSkillName
-| MutationSkillName
-| ExtraordinarySkillName
-| IncreaseSkillName
+export type Skill =
+| GeneralSkill
+| AgilitySkill
+| StrengthSkill
+| PassingSkill
+| MutationSkill
+| ExtraordinarySkill
+| IncreaseSkill
 
 
-export const Skills: {[key in SkillGroupName]: SkillName[]} = {
+export const Skills: {[key in SkillGroup]: Skill[]} = {
     General,
     Strength,
     Agility,
@@ -153,51 +201,33 @@ export const Skills: {[key in SkillGroupName]: SkillName[]} = {
 // const normalSkills = normalGroups.map(group => Skills[group]).concat().flat()
 // const doubleSkills = doubleGroups.map(group => Skills[group]).concat().flat()
 
-const groupsToSkills: (skillGroups: SkillGroupName[]) => SkillName[] =
+export const groupsToSkills: (skillGroups: SkillGroup[]) => Skill[] =
     skillGroups =>
         skillGroups.map(group => Skills[group]).concat().flat()
 
-export const SkillDescriptions: {[key in SkillName]?: string} = {
+export const SkillDescriptions: {[key in Skill]?: string} = {
     Block: ''
 }
 
-const skill: SkillName = 'AG+'
+const skill: Skill = 'AG+'
 
 const newAg = 5 + (Skills.Increase.includes(skill) ? 1 : 0)
 
-type Stat =
-    | 'ma'
-    | 'st'
-    | 'ag'
-    | 'av'
 
-type WithStats = {
-    [key in Stat]: number
-}
-
-export const statsUp: <T extends WithStats>(withStats: T, skills: SkillName[]) => T =
-    (withStats, skills) => ({
-        ...withStats,
-        ma: withStats.ma + (skills.includes('MA+') ? 1 : 0),
-        st: withStats.st + (skills.includes('ST+') ? 1 : 0),
-        ag: withStats.ag + (skills.includes('AG+') ? 1 : 0),
-        av: withStats.av + (skills.includes('AV+') ? 1 : 0),
-    })
-
-export const costOfSkill: (doubleGroups: SkillGroupName[]) => (skill: SkillName) => number =
+export const costOfSkill: (doubleGroups: SkillGroup[]) => (skill: Skill) => number =
     (doubleGroups) =>
-        cond<SkillName, number>([
-            [equals<SkillName>('ST+'), always(50)],
-            [equals<SkillName>('AG+'), always(30)],
-            [equals<SkillName>('MA+'), always(20)],
-            [equals<SkillName>('AV+'), always(10)],
+        cond<Skill, number>([
+            [equals<Skill>('ST+'), always(50)],
+            [equals<Skill>('AG+'), always(30)],
+            [equals<Skill>('MA+'), always(20)],
+            [equals<Skill>('AV+'), always(10)],
             [skill => groupsToSkills(doubleGroups).includes(skill), always(30)],
             [T, always(20)]
         ])
 
-export const colorOfSkill: (startingSkills: SkillName[], doubleGroups: SkillGroupName[]) => (skill: SkillName) => string =
+export const colorOfSkill: (startingSkills: Skill[], doubleGroups: SkillGroup[]) => (skill: Skill) => string =
         (startingSkills, doubleGroups) =>
-            cond<SkillName, string>([
+            cond<Skill, string>([
                 [skill => startingSkills.includes(skill), always('')],
                 [skill => groupsToSkills(doubleGroups).includes(skill), always('orange')],
                 [T, always('green')]

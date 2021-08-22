@@ -5,7 +5,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { Panel, SkillGroupTags } from "../components";
-import { Piece, Positional, SkillGroup, skillGroupForName, SkillName, SKILLS_AGILITY, SKILLS_GENERAL, SKILLS_MUTATION, SKILLS_STAT, SKILLS_STRENGTH } from "../TeamTypes";
+import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
@@ -103,7 +103,7 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
         )
     }
 
-export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[], addedSkills: SkillName[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
+export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], addedSkills: Skill[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
     ({title, startingSkills, addedSkills, normal, double, disabled = false}) => {
         const [, dispatch] = useAppState()
 
@@ -111,23 +111,18 @@ export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[],
 
         const selectedSkillNames = [...startingSkills, ...addedSkills]
 
-        const generalSkillOptions = SKILLS_GENERAL
-            .map(skill => skill.key)
+        const generalSkillOptions = Skills.General
             .filter(skillName => !selectedSkillNames.includes(skillName))
-        const strengthSkillOptions = SKILLS_STRENGTH
-            .map(skill => skill.key)
+        const strengthSkillOptions = Skills.Strength
             .filter(skillName => !selectedSkillNames.includes(skillName))
-        const agilitySkillOptions = SKILLS_AGILITY
-            .map(skill => skill.key)
+        const agilitySkillOptions = Skills.Agility
             .filter(skillName => !selectedSkillNames.includes(skillName))
         // const passingSkillOptions = SKILLS_PASSING
         //     .map(skill => skill.key)
         //     .filter(skillName => !selectedSkillNames.includes(skillName))
-        const mutationSkillOptions = SKILLS_MUTATION
-            .map(skill => skill.key)
+        const mutationSkillOptions = Skills.Mutation
             .filter(skillName => !selectedSkillNames.includes(skillName))
-        const statSkillOptions = SKILLS_STAT
-            .map(skill => skill.key)
+        const statSkillOptions = Skills.Increase
             .filter(skillName => !selectedSkillNames.includes(skillName))
                 
         const colorForSkillGroup: (skillGroup: SkillGroup) => string = cond([
@@ -136,28 +131,30 @@ export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[],
             [T, always('black')]
         ])
 
-        const colorForSkillName: (skillName: SkillName) => string = cond([
+        const colorForSkillName: (skill: Skill) => string = cond([
             [skillName => startingSkills.includes(skillName), always('')],
-            [skillName => normal.includes(skillGroupForName(skillName)), always('green')],
-            [skillName => double.includes(skillGroupForName(skillName)), always('orange')],
+            [skillName => groupsToSkills(normal).includes(skillName), always('green')],
+            [skillName => groupsToSkills(double).includes(skillName), always('orange')],
             [T, always('')]
         ])
 
-        const onSelect = (skillName: SkillName) =>
-            dispatch({type: 'addSkillName', title, skillName})
+        const onSelect = (skill: Skill) =>
+            dispatch({type: 'addSkillName', title, skill})
 
-        const onClose = (skillName: SkillName) =>
-            dispatch({type: 'removeSkillName', title, skillName})
+        const onClose = (skill: Skill) =>
+            dispatch({type: 'removeSkillName', title, skill})
 
         return (
-            <Select
+            <Select<Skill[]>
                 value={value}
+                showSearch
+                placeholder='Choose Skill'
                 mode='multiple'
                 size='middle'
                 bordered={false}
                 style={{width: '100%', margin: -6}}
                 tagRender={({value}) =>
-                    <Tag onClose={() => onClose(value as SkillName)} closable={!startingSkills.includes(value as SkillName) && !disabled} color={colorForSkillName(value as SkillName)}>{value}</Tag>
+                    <Tag onClose={() => onClose(value as Skill)} closable={!startingSkills.includes(value as Skill) && !disabled} color={colorForSkillName(value as Skill)}>{value}</Tag>
                 }
                 onSelect={onSelect}
                 disabled={disabled}
@@ -175,7 +172,7 @@ export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[],
                     <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Passing)}}>Passing</b>}>
                         {mutationSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
                     </Select.OptGroup>
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Stat)}}>Stat</b>}>
+                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Increase)}}>Stat</b>}>
                         {statSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
                     </Select.OptGroup>
 
@@ -185,11 +182,12 @@ export const SelectSkills: React.FC<{title: string, startingSkills: SkillName[],
 
 const PieceCard: React.FC<{piece: Piece}> =
     ({piece}) => {
+        const stats = statsUp(piece.positional, piece.addedSkills)
         return (
                 <Card type='inner' size='small' title={<PieceCardTitle {...{piece}}/>} extra={<PieceCardExtra {...{piece}}/>} style={{marginBottom: '16px'}} bodyStyle={{padding: '0px 6px'}} headStyle={{backgroundColor:'#888', color: '#FFF'}}>
                     <Row gutter={12} style={{padding: 0}}>
                         <Col span={10} style={{padding: '4px', height: '100%'}}>
-                            <StatsTable {...piece.positional}/>
+                            <StatsTable {...stats}/>
                         </Col>
                         <Col span={14}>
                             <div style={{ padding: '6px 0'}}>
