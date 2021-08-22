@@ -195,7 +195,6 @@ const AFTERLIFE_UNITED: TeamType = {
             startingSkills: ['Mighty Blow', 'Regeneration'],
             cost: 110,
         },
-
     ],
 }
 

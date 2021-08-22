@@ -5,8 +5,10 @@ import { TeamTypeInfo } from "./TeamTypeInfo"
 export const TeamTypePanel: React.FC = () => {
     return (
         <Panel>
+            <div style={{padding: '8px'}}>
             <SelectTeamType/>
             <TeamTypeInfo/>
+            </div>
         </Panel>
     )
 }
