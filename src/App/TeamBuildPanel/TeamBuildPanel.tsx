@@ -5,7 +5,7 @@ import React from "react";
 import { useAppState } from "../AppState";
 import { Panel } from "../components";
 import { SelectSkills } from "../PiecesPanel/PiecesPanel";
-import { Piece, SkillGroup, SkillName } from "../TeamTypes";
+import { Piece, SkillGroup, Skill } from "../models";
 
 
 const NoPiecesMessage: React.FC =
@@ -21,8 +21,8 @@ type Stats = {
 type PlayerRow = Stats & {
     title: string,
     positionalTitle: string,
-    startingSkills: SkillName[],
-    addedSkills: SkillName[],
+    startingSkills: Skill[],
+    addedSkills: Skill[],
     cost: number
     normal: SkillGroup[],
     double: SkillGroup[],

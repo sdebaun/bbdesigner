@@ -4,7 +4,7 @@ import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { SkillGroupTags } from "../components"
 import { SkillTags } from "../components/SkillTags"
-import { Positional, TEAM_TYPES } from "../TeamTypes"
+import { Positional, TEAM_TYPES } from "../models"
 
 type Stats = {
     ma: number,
@@ -52,7 +52,7 @@ const PositionalCard: React.FC<{positional: Positional}> =
                                 <SkillGroupTags {...{positional}}/>
                             </div>
                             <div>
-                                <SkillTags skillNames={positional.startingSkills} color=''/>
+                                <SkillTags skills={positional.startingSkills} color=''/>
                             </div>
                         </Col>
                     </Row>

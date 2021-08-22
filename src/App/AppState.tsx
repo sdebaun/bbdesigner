@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Positional, SkillName, TeamTypeKey, TEAM_TYPES } from './TeamTypes'
+import { Piece, Positional, Skill, TeamTypeKey, TEAM_TYPES } from './models'
 import { generateSlug } from 'random-word-slugs'
 import { filter, map, pipe, prop, sortBy } from 'ramda';
 
@@ -15,8 +15,8 @@ type AppAction =
   | { type: 'deletePiece', title: string }
   | { type: 'increasePiece', title: string }
   | { type: 'decreasePiece', title: string }
-  | { type: 'addSkillName', title: string, skillName: SkillName }
-  | { type: 'removeSkillName', title: string, skillName: SkillName }
+  | { type: 'addSkillName', title: string, skill: Skill }
+  | { type: 'removeSkillName', title: string, skill: Skill }
 
 const initialState = {
   pieces: []
@@ -95,12 +95,12 @@ const reduce: AppReducer =
       case 'addSkillName':
         return ({
           ...prev,
-          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: [...p.addedSkills, action.skillName]}) : p)(prev.pieces))
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: [...p.addedSkills, action.skill]}) : p)(prev.pieces))
         })
       case 'removeSkillName':
         return ({
           ...prev,
-          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn !== action.skillName)}) : p)(prev.pieces))
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn !== action.skill)}) : p)(prev.pieces))
         })
           
       default: return prev

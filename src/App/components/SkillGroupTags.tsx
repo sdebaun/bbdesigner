@@ -1,5 +1,5 @@
 import { Tag } from "antd"
-import { Positional, SkillGroup } from "../TeamTypes"
+import { Positional, SkillGroup } from "../models"
 
 const colorFor = (skillGroup: SkillGroup, normal: SkillGroup[], double: SkillGroup[]) => {
     if (normal.includes(skillGroup)) return 'green'

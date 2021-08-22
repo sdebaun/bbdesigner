@@ -1,6 +1,6 @@
 import { Tag } from "antd"
-import { SkillName } from "../TeamTypes"
+import { Skill } from "../models"
 
-export const SkillTags: React.FC<{skillNames: SkillName[], color: string}> =
-    ({skillNames, color}) =>
-        <>{skillNames.map(skillName => <Tag key={skillName} {...{color}}>{skillName}</Tag>)}</>
+export const SkillTags: React.FC<{skills: Skill[], color: string}> =
+    ({skills, color}) =>
+        <>{skills.map(skill => <Tag key={skill} {...{color}}>{skill}</Tag>)}</>
