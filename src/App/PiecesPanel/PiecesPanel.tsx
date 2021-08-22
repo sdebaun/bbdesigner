@@ -7,16 +7,16 @@ import { useAppState } from "../AppState";
 import { Panel, SkillGroupTags } from "../components";
 import { Piece, Positional, SkillGroup, skillGroupForName, SkillName, SKILLS_AGILITY, SKILLS_GENERAL, SKILLS_MUTATION, SKILLS_STAT, SKILLS_STRENGTH } from "../TeamTypes";
 
-const defaultStyle: React.CSSProperties = { minHeight: '40px' }
-const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: 'green' })
-const isOverStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: 'blue' })
+const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
+const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
+const isOverStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#EFE' })
 
 type DropProps = {canDrop: boolean, isOver: boolean}
 
 const styleForDropZone: (props: DropProps) => React.CSSProperties =
     cond<DropProps, React.CSSProperties>([
-        [prop('canDrop'), always(canDropStyle)],
         [prop('isOver'), always(isOverStyle)],
+        [prop('canDrop'), always(canDropStyle)],
         [T, always(defaultStyle)]
     ])
 
@@ -225,7 +225,7 @@ export const PiecesPanel: React.FC = () => {
     if (!selectedTeamType) return <></>
 
     return (
-            <Panel>
+            <Panel height='100%'>
                 <PiecesDropZone>
                     <h2>Pieces</h2>
                     {isEmpty(pieces) ? <NoPiecesMessage/> : <PieceList/>}

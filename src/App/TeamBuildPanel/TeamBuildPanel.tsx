@@ -9,7 +9,7 @@ import { Piece, SkillGroup, SkillName } from "../TeamTypes";
 
 
 const NoPiecesMessage: React.FC =
-    () => <Empty description='Increase your piece counts to see your roster and total cost.'/>
+    () => <Empty style={{paddingBottom: '24px'}} description='Increase your piece counts to see your roster and total cost.'/>
 
 type Stats = {
     ma: number,
@@ -93,8 +93,10 @@ export const TeamBuildPanel: React.FC = () => {
 
     return (
             <Panel>
-                    {cost > 0 ? <h2>{cost} TV</h2> : ''}
-                    {totalPlayers(pieces) === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
+                <div style={{padding: '8px 8px 0px 8px'}}>
+                {cost > 0 ? <h2>{cost} TV</h2> : ''}
+                </div>
+                {totalPlayers(pieces) === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
             </Panel>
     )
 }
