@@ -1,4 +1,16 @@
-import { always, concat, cond, equals, flatten, map, pipe, T } from "ramda"
+import { always, cond, equals, T } from "ramda"
+
+const NORMAL_COST = 20
+const DOUBLE_COST = 30
+const AV_COST = 30
+const MA_COST = 30
+const AG_COST = 40
+const ST_COST = 50
+
+// const COACH_COST = 10
+// const CHEERLEADER_COST = 10
+// const FAN_COST = 10
+// const APOTHECARY_COST = 50
 
 export enum SkillGroup {
     General = 'General',
@@ -90,14 +102,35 @@ export type AgilitySkill =
     | 'Sure Feet'
 
 export const Agility: AgilitySkill[] = [
-
+    'Catch',
+    'Diving Catch',
+    'Diving Tackle',
+    'Dodge',
+    'Jump Up',
+    'Leap',
+    'Side Step',
+    'Sneaky Git',
+    'Sprint',
+    'Sure Feet',
 ]
 
 export type PassingSkill =
     | 'Accurate'
+    | 'Dump-Off'
+    | 'Hail Mary Pass'
+    | 'Leader'
+    | 'Nerves of Steel'
+    | 'Pass'
+    | 'Safe Throw'
 
 export const Passing: PassingSkill[] = [
     'Accurate',
+    'Dump-Off',
+    'Hail Mary Pass',
+    'Leader',
+    'Nerves of Steel',
+    'Pass',
+    'Safe Throw',
 ]
 
 export type MutationSkill =
@@ -143,6 +176,17 @@ export type ExtraordinarySkill =
     | 'Regeneration'
     | 'Right Stuff'
 
+    | 'Secret Weapon'
+    | 'Stab'
+    | 'Stunty'
+    | 'Swoop'
+    | 'Take Root'
+    | 'Throw Team-Mate'
+    | 'Timm-ber!'
+    | 'Titchy'
+    | 'Weeping Dagger'
+    | 'Wild Animal'
+
 export const Extraordinary: ExtraordinarySkill[] = [
     'Always Hungry',
     'Animosity',
@@ -159,7 +203,17 @@ export const Extraordinary: ExtraordinarySkill[] = [
     'Nurgles Rot',
     'Really Stupid',
     'Regeneration',
-    'Right Stuff'
+    'Right Stuff',
+    'Secret Weapon',
+    'Stab',
+    'Stunty',
+    'Swoop',
+    'Take Root',
+    'Throw Team-Mate',
+    'Timm-ber!',
+    'Titchy',
+    'Weeping Dagger',
+    'Wild Animal',
 ]
 
 export type IncreaseSkill =
@@ -195,12 +249,6 @@ export const Skills: {[key in SkillGroup]: Skill[]} = {
     Increase
 }
 
-// const normalGroups = [SkillGroupName.General, SkillGroupName.Strength]
-// const doubleGroups = [SkillGroupName.Agility, SkillGroupName.Passing]
-
-// const normalSkills = normalGroups.map(group => Skills[group]).concat().flat()
-// const doubleSkills = doubleGroups.map(group => Skills[group]).concat().flat()
-
 export const groupsToSkills: (skillGroups: SkillGroup[]) => Skill[] =
     skillGroups =>
         skillGroups.map(group => Skills[group]).concat().flat()
@@ -209,20 +257,15 @@ export const SkillDescriptions: {[key in Skill]?: string} = {
     Block: ''
 }
 
-const skill: Skill = 'AG+'
-
-const newAg = 5 + (Skills.Increase.includes(skill) ? 1 : 0)
-
-
 export const costOfSkill: (doubleGroups: SkillGroup[]) => (skill: Skill) => number =
     (doubleGroups) =>
         cond<Skill, number>([
-            [equals<Skill>('ST+'), always(50)],
-            [equals<Skill>('AG+'), always(30)],
-            [equals<Skill>('MA+'), always(20)],
-            [equals<Skill>('AV+'), always(10)],
-            [skill => groupsToSkills(doubleGroups).includes(skill), always(30)],
-            [T, always(20)]
+            [equals<Skill>('ST+'), always(ST_COST)],
+            [equals<Skill>('AG+'), always(AG_COST)],
+            [equals<Skill>('MA+'), always(MA_COST)],
+            [equals<Skill>('AV+'), always(AV_COST)],
+            [skill => groupsToSkills(doubleGroups).includes(skill), always(DOUBLE_COST)],
+            [T, always(NORMAL_COST)]
         ])
 
 export const colorOfSkill: (startingSkills: Skill[], doubleGroups: SkillGroup[]) => (skill: Skill) => string =

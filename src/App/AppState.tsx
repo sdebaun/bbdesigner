@@ -1,11 +1,12 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Positional, Skill, TeamTypeKey, TEAM_TYPES } from './models'
+import { Piece, Positional, Skill, TeamTypeKey, TEAM_TYPES, Upgrade, Upgrades } from './models'
 import { generateSlug } from 'random-word-slugs'
 import { filter, map, pipe, prop, sortBy } from 'ramda';
 
 export type AppState = {
-  selectedTeamType?: TeamTypeKey,
+  selectedTeamType?: TeamTypeKey
   pieces: Piece[]
+  upgrades: Upgrades
 }
 
 type AppAction =
@@ -17,9 +18,18 @@ type AppAction =
   | { type: 'decreasePiece', title: string }
   | { type: 'addSkillName', title: string, skill: Skill }
   | { type: 'removeSkillName', title: string, skill: Skill }
+  | { type: 'increaseUpgrade', upgrade: Upgrade }
+  | { type: 'decreaseUpgrade', upgrade: Upgrade }
 
 const initialState = {
-  pieces: []
+  pieces: [],
+  upgrades: {
+    'Team Reroll': 0,
+    'Apothecary': 0,
+    'Coach': 0,
+    'Cheerleader': 0,
+    'Fan Factor': 0,
+  }
 }
 
 export const AppStateContext = createContext<[AppState, Dispatch<AppAction>]>([initialState, () => {}]);
@@ -39,7 +49,7 @@ const reducer: AppReducer =
     console.log(JSON.stringify(action, null, 2))
 
     const next = reduce(prev, action)
-    console.log(JSON.stringify(next, null, 2))
+    // console.log(JSON.stringify(next, null, 2))
 
     return next
   }
@@ -102,7 +112,23 @@ const reduce: AppReducer =
           ...prev,
           pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, addedSkills: p.addedSkills.filter(sn => sn !== action.skill)}) : p)(prev.pieces))
         })
-          
+      case 'increaseUpgrade':
+        return ({
+          ...prev,
+          upgrades: {
+            ...prev.upgrades,
+            [action.upgrade]: prev.upgrades[action.upgrade] + 1
+          }
+        })
+      case 'decreaseUpgrade':
+        return ({
+          ...prev,
+          upgrades: {
+            ...prev.upgrades,
+            [action.upgrade]: prev.upgrades[action.upgrade] - 1
+          }
+        })
+  
       default: return prev
     }
   }

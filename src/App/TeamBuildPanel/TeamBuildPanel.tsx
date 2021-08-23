@@ -1,24 +1,19 @@
-import { Empty, Table } from "antd";
+import { Empty, InputNumber, Table } from "antd";
 import Column from "antd/lib/table/Column";
 import { isEmpty, map, pipe, prop, sum, times } from "ramda";
 import React from "react";
 import { useAppState } from "../AppState";
 import { Panel } from "../components";
 import { SelectSkills } from "../PiecesPanel/PiecesPanel";
-import { Piece, SkillGroup, Skill } from "../models";
-
+import { Piece, SkillGroup, Skill, pieceCost, WithStats, TEAM_TYPES } from "../models";
+import { costOfUpgrades, Upgrade, Upgrades } from "../models/Upgrade";
+import { TeamAssets } from "../components";
 
 const NoPiecesMessage: React.FC =
     () => <Empty style={{paddingBottom: '24px'}} description='Increase your piece counts to see your roster and total cost.'/>
 
-type Stats = {
-    ma: number,
-    st: number,
-    ag: number,
-    av: number,
-}
-
-type PlayerRow = Stats & {
+type PlayerRow = WithStats & {
+    rowKey: string,
     title: string,
     positionalTitle: string,
     startingSkills: Skill[],
@@ -33,12 +28,13 @@ const piecesToPlayerRows: (pieces: Piece[]) => PlayerRow[] =
         const rows: PlayerRow[] = []
 
         pieces.forEach(piece => {
-            times(() => rows.push({
+            times(i => rows.push({
+                rowKey: `${piece.title}-${i}`,
                 title: piece.title,
                 positionalTitle: piece.positional.title,
                 startingSkills: piece.positional.startingSkills,
                 addedSkills: piece.addedSkills,
-                cost: piece.positional.cost,
+                cost: pieceCost(piece),
                 ma: piece.positional.ma,
                 st: piece.positional.st,
                 ag: piece.positional.ag,
@@ -56,9 +52,9 @@ const PlayerTable: React.FC<{pieces: Piece[]}> =
     ({pieces}) => {
         const dataSource = piecesToPlayerRows(pieces)
         return (
-            <Table {...{dataSource}} size='small' pagination={false}>
+            <Table {...{dataSource}} size='small' pagination={false} rowKey='rowKey'>
                 <Column title='Title' render={
-                    playerRow => <><span style={{fontSize:'100%'}}>{playerRow.positionalTitle}</span><br/><i style={{fontSize: '90%'}}>{playerRow.title}</i></>
+                    playerRow => <><span style={{fontSize:'100%'}}>{playerRow.positionalTitle}</span><br/><b style={{fontSize: '90%'}}>{playerRow.title}</b></>
                 }/>
                 <Column title='MA' dataIndex='ma'/>
                 <Column title='ST' dataIndex='st'/>
@@ -67,34 +63,70 @@ const PlayerTable: React.FC<{pieces: Piece[]}> =
                 <Column title='skills' render={
                     ({startingSkills, addedSkills, normal, double}: PlayerRow) => <>
                         <SelectSkills title='' disabled={true} {...{startingSkills, addedSkills, normal, double }}/>
-                        {/* <SkillTags skillNames={startingSkills} color=''/>
-                        <SkillTags skillNames={addedSkills} color='green'/> */}
                     </>
                 }/>
                 <Column title='TV' dataIndex='cost'/>
             </Table>
         )
     }
+
 const totalCost: (pieces: Piece[]) => number =
     pipe(
-        map((piece: Piece) => piece.count * piece.positional.cost),
+        map((piece: Piece) => piece.count * pieceCost(piece)),
         sum
     )
 
 const totalPlayers: (pieces: Piece[]) => number =
             pipe( map(prop('count')), sum)
 
+const TeamAssetCount: React.FC<{value: number, increase?: () => void, decrease?: () => void}> =
+    ({value, increase, decrease}) => {
+        if (increase && decrease) {
+            const onStep: (value: number, info: { type: 'up' | 'down'}) => void =
+            (_ ,{type}) => type === 'up' ? increase() : decrease()
+            return (
+                <InputNumber bordered={false} size='large' min={0} style={{width: '100%'}} {...{value, onStep}}/>
+            )
+        }
+        return <span>{value}</span>
+    }
+
+const TeamAssetCounts: React.FC<{upgrades: Upgrades}> =
+    ({upgrades}) => {
+        const [, dispatch] = useAppState()
+
+        const increase: (upgrade: Upgrade) => () => void =
+            upgrade => () => dispatch({type: 'increaseUpgrade', upgrade})
+
+        const decrease: (upgrade: Upgrade) => () => void =
+            upgrade => () => dispatch({type: 'decreaseUpgrade', upgrade})
+
+        return (
+            <TeamAssets
+                upgrades={upgrades}
+                renderCell={upgrade => (
+                    <TeamAssetCount key={upgrade} value={upgrades[upgrade]} increase={increase(upgrade)} decrease={decrease(upgrade)}/>
+                )}
+                />
+        )
+    }
+        
 export const TeamBuildPanel: React.FC = () => {
-    const [{pieces}] = useAppState()
+    const [{pieces, selectedTeamType, upgrades}] = useAppState()
 
-    if (isEmpty(pieces)) return <></>
+    if (isEmpty(pieces) || !selectedTeamType) return <></>
 
-    const cost = totalCost(pieces)
+    const teamType = TEAM_TYPES[selectedTeamType]
+
+    const cost = totalCost(pieces) + costOfUpgrades(teamType.upgradeCosts, upgrades)
 
     return (
             <Panel>
                 <div style={{padding: '8px 8px 0px 8px'}}>
-                {cost > 0 ? <h2>{cost} TV</h2> : ''}
+                    <h2>{cost} TV</h2>
+                </div>
+                <div style={{padding: '0px 8px 8px 8px'}}>
+                    <TeamAssetCounts {...{upgrades}}/>
                 </div>
                 {totalPlayers(pieces) === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
             </Panel>
