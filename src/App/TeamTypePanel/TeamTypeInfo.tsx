@@ -4,8 +4,7 @@ import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { SkillGroupTags, TeamAssets } from "../components"
 import { SkillTags } from "../components/SkillTags"
-import { Position } from "../models"
-import { TeamTypes } from "../models/TeamType"
+import { Position, TeamTypes } from "../models"
 import { Upgrades } from "../models/Upgrade"
 
 type Stats = {

@@ -13,6 +13,6 @@ export type TeamType = {
     positionals: Position[]
 }
 
-export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
-    ChaosDwarf,
-}
+// export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
+//     ChaosDwarf,
+// }

@@ -1,8 +1,8 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Position, Skill, TeamTypeKey, Upgrade, Upgrades } from './models'
+import { Piece, Position, Skill, TeamTypeKey, Upgrade, Upgrades, TeamTypes } from './models'
 import { generateSlug } from 'random-word-slugs'
 import { filter, map, pipe, prop, sortBy } from 'ramda';
-import { TeamTypes } from './models/TeamType';
+// import { TeamTypes } from './models/TeamType';
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey
