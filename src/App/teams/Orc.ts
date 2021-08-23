@@ -1,4 +1,4 @@
-import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle, replacePositionTitle } from "../models";
+import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle } from "../models";
 
 const title = 'Orc'
 

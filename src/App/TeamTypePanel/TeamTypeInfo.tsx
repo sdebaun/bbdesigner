@@ -4,8 +4,9 @@ import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { SkillGroupTags, TeamAssets } from "../components"
 import { SkillTags } from "../components/SkillTags"
-import { Position, TeamTypes } from "../models"
+import { Position } from "../models"
 import { Upgrades } from "../models/Upgrade"
+import { TeamTypeKey, TeamTypes } from "../teams"
 
 type Stats = {
     ma: number,
@@ -77,7 +78,7 @@ export const TeamTypeInfo: React.FC = () => {
 
     if (!selectedTeamType) return <></>
 
-    const teamType = TeamTypes[selectedTeamType]
+    const teamType = TeamTypes[selectedTeamType as TeamTypeKey]
 
     return <>
         <div style={{padding: '8px 0px 8px 0px'}}>

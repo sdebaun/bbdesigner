@@ -1,4 +1,4 @@
-import { lensProp, over, prepend, replace } from "ramda";
+import { lensProp, over, replace } from "ramda";
 import { Skill, SkillGroup } from "./Skill";
 
 export type Position = {

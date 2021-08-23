@@ -5,10 +5,10 @@ import React from "react";
 import { useAppState } from "../AppState";
 import { Panel } from "../components";
 import { SelectSkills } from "../PiecesPanel/PiecesPanel";
-import { Piece, SkillGroup, Skill, pieceCost, WithStats, TeamTypes } from "../models";
+import { Piece, SkillGroup, Skill, pieceCost, WithStats } from "../models";
 import { costOfUpgrades, Upgrade, Upgrades } from "../models/Upgrade";
 import { TeamAssets } from "../components";
-// import { TeamTypes } from "../models/TeamType";
+import { TeamTypeKey, TeamTypes } from "../teams"
 
 const NoPiecesMessage: React.FC =
     () => <Empty style={{paddingBottom: '24px'}} description='Increase your piece counts to see your roster and total cost.'/>
@@ -117,7 +117,7 @@ export const TeamBuildPanel: React.FC = () => {
 
     if (isEmpty(pieces) || !selectedTeamType) return <></>
 
-    const teamType = TeamTypes[selectedTeamType]
+    const teamType = TeamTypes[selectedTeamType as TeamTypeKey]
 
     const cost = totalCost(pieces) + costOfUpgrades(teamType.upgradeCosts, upgrades)
 
