@@ -20,6 +20,8 @@ import { Chaos } from './Chaos'
 import { DarkElf } from './DarkElf'
 import { ChaoticPlayerPact } from './ChaoticPlayerPact'
 import { Underworld } from './Underworld'
+import { Human } from './Human'
+import { Dwarf } from './Dwarf'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -42,6 +44,8 @@ export type TeamTypeKey =
     | 'DarkElf'
     | 'ChaoticPlayerPact'
     | 'Underworld'
+    | 'Human'
+    | 'Dwarf'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -64,4 +68,6 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     DarkElf,
     ChaoticPlayerPact,
     Underworld,
+    Human,
+    Dwarf,
 }
