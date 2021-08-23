@@ -68,7 +68,7 @@ const TeamAssetCosts: React.FC<{upgradeCosts: Upgrades}> =
         <TeamAssets
             upgrades={upgradeCosts}
             renderCell={upgrade => (
-                <span style={{fontSize: '16px'}}>{upgradeCosts[upgrade]}</span>
+                <div key={upgrade} style={{fontSize: '16px'}}>{upgradeCosts[upgrade]}</div>
             )}
             />
 
