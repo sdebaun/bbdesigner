@@ -1,4 +1,4 @@
-import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "..";
+import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "../models";
 
 export const AfterlifeUnited: TeamType = {
     title: 'Afterlife United',

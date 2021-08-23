@@ -1,4 +1,4 @@
-import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double } from "..";
+import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double } from "../models";
 
 export const BrettonianLineman: Position = {
     title: 'Brettonian Lineman',

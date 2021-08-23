@@ -1,4 +1,4 @@
-import { BASE_UPGRADE_COSTS, TeamType } from "..";
+import { BASE_UPGRADE_COSTS, TeamType } from "../models";
 
 import { ChaosDwarf } from './ChaosDwarf'
 import { HighElf } from './HighElf'
