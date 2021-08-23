@@ -1,10 +1,11 @@
-import { Card, Col, Row, Statistic, Table, Tag } from "antd"
+import { Card, Col, Row, Table, Tag } from "antd"
 import Column from "antd/lib/table/Column"
 import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
-import { SkillGroupTags } from "../components"
+import { SkillGroupTags, TeamAssets } from "../components"
 import { SkillTags } from "../components/SkillTags"
 import { Positional, TEAM_TYPES } from "../models"
+import { Upgrades } from "../models/Upgrade"
 
 type Stats = {
     ma: number,
@@ -25,7 +26,7 @@ const StatsTable: React.FC<Stats> =
 
 const PositionalCardTitle: React.FC<{positional: Positional}> =
     ({positional}) =>
-        <>{positional.title}</>
+        <>{positional.title} (0-{positional.max})</>
 
 const PositionalCard: React.FC<{positional: Positional}> =
     ({positional}) => {
@@ -62,14 +63,14 @@ const PositionalCard: React.FC<{positional: Positional}> =
 
     }
 
-const TeamAssetCosts: React.FC =
-    () =>
-        <Row>
-          <Col span={6}><Statistic title='Team Rerolls' value={60}/></Col>  
-          <Col span={6}><Statistic title='Coaching' value={60}/></Col>  
-          <Col span={6}><Statistic title='Apothecary' value={60}/></Col>  
-          <Col span={6}><Statistic title='Cheerleaders' value={60}/></Col>  
-        </Row>
+const TeamAssetCosts: React.FC<{upgradeCosts: Upgrades}> =
+    ({upgradeCosts}) =>
+        <TeamAssets
+            upgrades={upgradeCosts}
+            renderCell={upgrade => (
+                <span style={{fontSize: '16px'}}>{upgradeCosts[upgrade]}</span>
+            )}
+            />
 
 export const TeamTypeInfo: React.FC = () => {
     const [{selectedTeamType}] = useAppState()
@@ -79,7 +80,9 @@ export const TeamTypeInfo: React.FC = () => {
     const teamType = TEAM_TYPES[selectedTeamType]
 
     return <>
-        <TeamAssetCosts/>
+        <div style={{padding: '8px 0px 8px 0px'}}>
+        <TeamAssetCosts {...teamType}/>
+        </div>
         {teamType.positionals.map(positional => <PositionalCard key={positional.title} {...{positional}}/>)}
     </>
 }

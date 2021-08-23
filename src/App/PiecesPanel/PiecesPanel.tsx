@@ -1,10 +1,10 @@
-import { Empty, Card, Row, Col, Table, Tag, Select, Button } from "antd";
+import { Empty, Card, Row, Col, Table, Tag, Select, InputNumber } from "antd";
 import Column from "antd/lib/table/Column";
 import { always, cond, includes, isEmpty, not, pipe, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
-import { Panel, SkillGroupTags } from "../components";
+import { DeleteButton, Panel, SkillGroupTags } from "../components";
 import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
@@ -63,15 +63,23 @@ const StatsTable: React.FC<Stats> =
 
 const PlayerCardTitle: React.FC<{title: string, subtitle: string}> =
     ({title, subtitle}) =>
-        <><span style={{fontSize: '100%'}}>{title}</span> { subtitle ? <><br/><b style={{fontSize: '90%'}}>{subtitle}</b></> : ''}</>
+        <><span style={{fontSize: '100%'}}>{title}</span> { subtitle ? <><b style={{fontSize: '90%'}}>{subtitle}</b></> : ''}</>
 
 const PieceCardTitle: React.FC<{piece: Piece}> =
     ({piece: { title: subtitle, positional: { title }}}) =>
         <PlayerCardTitle {...{title, subtitle}}/>
 
+const PieceCount: React.FC<{value: number, increase: () => void, decrease: () => void}> =
+    ({value, increase, decrease}) => {
+        const onStep: (value: number, info: { type: 'up' | 'down'}) => void =
+            (_ ,{type}) => type === 'up' ? increase() : decrease()
+        return (
+            <InputNumber size='small' min={0} style={{width: '60px'}} {...{value, onStep}}/>
+        )
+    }
+
 const PieceCardExtra: React.FC<{piece: Piece}> =
     ({piece}) => {
-    // ({piece: { title, count, positional: { cost }}}) => {
         const [, dispatch] = useAppState()
 
         const cost = pieceCost(piece)
@@ -88,19 +96,13 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
         return (
             <Row gutter={8}>
                 <Col>
-                    { piece.count > 0 ?
-                        <Button danger shape='circle' size='small' onClick={decreaseOnClick}>-</Button> :
-                        <Button danger shape='circle' size='small' onClick={deleteOnClick}>X</Button>
-                    }
+                    <DeleteButton onClick={deleteOnClick}/>
                 </Col>
                 <Col>
-                    <Button type='primary' shape='circle' size='small' onClick={increaseOnClick}>+</Button>
+                    <PieceCount value={piece.count} increase={increaseOnClick} decrease={decreaseOnClick}/>
                 </Col>
                 <Col>
-                    {piece.count} @
-                </Col>
-                <Col>
-                    <Tag>{cost}</Tag>
+                    @ <Tag>{cost}</Tag>
                 </Col>
             </Row>
         )

@@ -1,6 +1,7 @@
 import { map, pipe, toPairs } from "ramda"
 import { Piece } from "./Piece"
 import { Skill, SkillGroup } from "./Skill"
+import { Upgrades } from "./Upgrade"
 
 export type Positional = {
     title: string
@@ -18,6 +19,7 @@ export type Positional = {
 export type TeamType = {
     title: string
     dataEntryBy?: string
+    upgradeCosts: Upgrades,
     positionals: Positional[]
 }
 
@@ -32,8 +34,16 @@ export type TeamTypeKey =
 
 export type TeamTypeDictionary = { [key in TeamTypeKey]: TeamType }
 
+const BASE_UPGRADE_COSTS: Omit<Upgrades, 'Team Reroll'> = {
+    Apothecary: 50,
+    Coach: 10,
+    Cheerleader: 10,
+    "Fan Factor": 10,
+}
+
 const AFTERLIFE_UNITED: TeamType = {
     title: 'Afterlife United',
+    upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
     positionals: [
         {
             title: 'Zombie',
@@ -103,6 +113,7 @@ const AFTERLIFE_UNITED: TeamType = {
 
 const VIOLENCE_TOGETHER: TeamType = {
     title: 'Violence Together',
+    upgradeCosts: {'Team Reroll': 60, ...BASE_UPGRADE_COSTS},
     positionals: [
         {
             title: 'Orc Lineman',
@@ -119,6 +130,7 @@ const VIOLENCE_TOGETHER: TeamType = {
 
 const CHAOS_DWARF: TeamType = {
     title: 'Chaos Dwarf',
+    upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
     positionals: [
         {
             title: 'Hobgoblin Runner',
