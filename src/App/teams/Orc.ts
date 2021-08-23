@@ -1,4 +1,4 @@
-import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle } from "../models";
+import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle, replacePositionTitle } from "../models";
 
 const title = 'Orc'
 
@@ -50,7 +50,7 @@ export const OrcGoblin: Position = prepend({
     startingSkills: ['Dodge', 'Right Stuff', 'Stunty'],
     normal: Normal.A,
     double: Double.GSP,
-    cost: 120,
+    cost: 40,
     max: 4,
 })
 

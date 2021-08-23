@@ -14,7 +14,7 @@ export const LizardmanSkink: Position = prepend({
     max: 16,
 })
 
-export const LizardmanSaurus: Position = {
+export const LizardmanSaurus: Position = prepend({
     title: 'Saurus',
     ma: 6, st: 4, ag: 1, av: 9,
     startingSkills: [],
@@ -22,9 +22,9 @@ export const LizardmanSaurus: Position = {
     double: Double.AP,
     cost: 80,
     max: 6,
-}
+})
 
-export const LizardmanKroxigor: Position = {
+export const LizardmanKroxigor: Position = prepend({
     title: 'Kroxigor',
     ma: 6, st: 5, ag: 1, av: 9,
     startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Prehensile Tail', 'Thick Skull'],
@@ -32,7 +32,7 @@ export const LizardmanKroxigor: Position = {
     double: Double.GAP,
     cost: 140,
     max: 1,
-}
+})
 
 export const Lizardman: TeamType = {
     title,

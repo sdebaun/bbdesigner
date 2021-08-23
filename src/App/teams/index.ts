@@ -12,6 +12,8 @@ import { SuperiorBeingRing } from './SuperiorBeingRing'
 import { Orc } from './Orc'
 import { Lizardman } from './Lizardman'
 import { Ogre } from './Ogre'
+import { Goblin } from './Goblin'
+import { ViolenceTogether } from './ViolenceTogether'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -26,6 +28,8 @@ export type TeamTypeKey =
     | 'Orc'
     | 'Lizardman'
     | 'Ogre'
+    | 'Goblin'
+    | 'ViolenceTogether'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -39,5 +43,7 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     AfterlifeUnited,
     Orc,
     Lizardman,
-    Ogre
+    Ogre,
+    Goblin,
+    ViolenceTogether,
 }
