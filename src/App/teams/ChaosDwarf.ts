@@ -36,7 +36,7 @@ export const EnslavedMinotaur: Position = {
     startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
     normal: Normal.S,
     double: Double.GAPM,
-    cost: 50,
+    cost: 150,
     max: 16,
 }
 

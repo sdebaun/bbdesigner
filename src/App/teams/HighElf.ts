@@ -36,8 +36,8 @@ export const HighElfBlitzer: Position = {
     startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
     normal: Normal.GA,
     double: Double.SP,
-    cost: 50,
-    max: 16,
+    cost: 100,
+    max: 2,
 }
 
 export const HighElf: TeamType = {

@@ -6,7 +6,7 @@ export const BrettonianLineman: Position = {
     startingSkills: ['Fend'],
     normal: Normal.G,
     double: Double.ASP,
-    cost: 70,
+    cost: 40,
     max: 16,
 }
 

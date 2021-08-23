@@ -83,6 +83,10 @@ export const TeamTypeInfo: React.FC = () => {
         <div style={{padding: '8px 0px 8px 0px'}}>
         <TeamAssetCosts {...teamType}/>
         </div>
-        {teamType.positions.map(positional => <PositionalCard key={positional.title} {...{positional}}/>)}
+        {
+            teamType.positions
+                .sort((a, b) => a.cost - b.cost)
+                .map(positional => <PositionalCard key={positional.title} {...{positional}}/>)
+        }
     </>
 }
