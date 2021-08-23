@@ -16,7 +16,7 @@ export const HighElfLineman: Position = prepend({
 
 export const HighElfThrower: Position = prepend({
     title: 'Thrower',
-    ma: 6, st: 3, ag: 4, av: 9,
+    ma: 6, st: 3, ag: 4, av: 8,
     startingSkills: ['Pass', 'Safe Throw'],
     normal: Normal.GAP,
     double: Double.S,
