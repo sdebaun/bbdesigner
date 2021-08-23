@@ -275,3 +275,22 @@ export const colorOfSkill: (startingSkills: Skill[], doubleGroups: SkillGroup[])
                 [skill => groupsToSkills(doubleGroups).includes(skill), always('orange')],
                 [T, always('green')]
             ])
+
+export const Normal = {
+    G: [SkillGroup.General],
+    GS: [SkillGroup.General, SkillGroup.Strength],
+    GA: [SkillGroup.General, SkillGroup.Agility],
+    S: [SkillGroup.Strength],
+    GAP: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
+    GAS: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Strength],
+}
+
+export const Double = {
+    S: [SkillGroup.Increase, SkillGroup.Strength],
+    ASP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing],
+    AP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
+    SP: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing],
+    AMP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    GAPM: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    P: [SkillGroup.Increase, SkillGroup.Passing],
+}

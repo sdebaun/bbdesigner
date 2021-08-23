@@ -5,5 +5,5 @@ export type TeamType = {
     title: string
     dataEntryBy?: string
     upgradeCosts: Upgrades,
-    positionals: Position[]
+    positions: Position[]
 }

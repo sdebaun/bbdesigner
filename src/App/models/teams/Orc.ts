@@ -3,7 +3,7 @@ import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "..";
 export const Orc: TeamType = {
     title: 'Orc',
     upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
-    positionals: [
+    positions: [
         {
             title: 'Hobgoblin Runner',
             ma: 6, st: 3, ag: 3, av: 7,

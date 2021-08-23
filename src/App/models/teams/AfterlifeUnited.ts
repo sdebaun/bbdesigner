@@ -3,7 +3,7 @@ import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "..";
 export const AfterlifeUnited: TeamType = {
     title: 'Afterlife United',
     upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
-    positionals: [
+    positions: [
         {
             title: 'Zombie',
             ma: 4, st: 3, ag: 2, av: 8,
