@@ -14,6 +14,8 @@ import { Lizardman } from './Lizardman'
 import { Ogre } from './Ogre'
 import { Goblin } from './Goblin'
 import { ViolenceTogether } from './ViolenceTogether'
+import { Skaven } from './Skaven'
+import { FarEastAssociation } from './FarEastAssociation'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -30,6 +32,8 @@ export type TeamTypeKey =
     | 'Ogre'
     | 'Goblin'
     | 'ViolenceTogether'
+    | 'Skaven'
+    | 'FarEastAssociation'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -46,4 +50,6 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     Ogre,
     Goblin,
     ViolenceTogether,
+    Skaven,
+    FarEastAssociation,
 }
