@@ -66,8 +66,8 @@ const PlayerCardTitle: React.FC<{title: string, subtitle: string}> =
         <><span style={{fontSize: '100%'}}>{title}</span> { subtitle ? <><b style={{fontSize: '90%'}}>{subtitle}</b></> : ''}</>
 
 const PieceCardTitle: React.FC<{piece: Piece}> =
-    ({piece: { title: subtitle, positional: { title }}}) =>
-        <PlayerCardTitle {...{title, subtitle}}/>
+    ({piece: { title: subtitle, positional: { title, max }}}) =>
+        <PlayerCardTitle {...{title: `${title} (0-${max})`, subtitle}}/>
 
 const PieceCount: React.FC<{value: number, increase: () => void, decrease: () => void}> =
     ({value, increase, decrease}) => {
@@ -209,8 +209,11 @@ const PieceCard: React.FC<{piece: Piece}> =
 const PieceList: React.FC =
     () => {
         const [{pieces}] = useAppState()
+
+        const sorted = pieces.sort((a, b) => a.positional.cost - b.positional.cost)
+
         return <>
-            {pieces.map(piece => <PieceCard key={piece.title} {...{piece}}/>)}
+            {sorted.map(piece => <PieceCard key={piece.title} {...{piece}}/>)}
         </>
     }
 
