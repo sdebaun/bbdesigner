@@ -21,6 +21,6 @@ export const SelectTeamType: React.FC = () => {
   
     return <Select
               {...{value, onChange, onClear, options}}
-              allowClear placeholder='Choose team type' size='large' style={{width: '100%'}}
+              showSearch allowClear placeholder='Choose team type' size='large' style={{width: '100%'}}
               />
   }
