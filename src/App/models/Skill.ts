@@ -162,7 +162,7 @@ export type ExtraordinarySkill =
     | 'Always Hungry'
     | 'Animosity'
     | 'Ball and Chain'
-    | 'Blood List'
+    | 'Blood Lust'
     | 'Bombadier'
     | 'Bone-Head'
     | 'Chainsaw'
@@ -191,7 +191,7 @@ export const Extraordinary: ExtraordinarySkill[] = [
     'Always Hungry',
     'Animosity',
     'Ball and Chain',
-    'Blood List',
+    'Blood Lust',
     'Bombadier',
     'Bone-Head',
     'Chainsaw',
@@ -275,3 +275,27 @@ export const colorOfSkill: (startingSkills: Skill[], doubleGroups: SkillGroup[])
                 [skill => groupsToSkills(doubleGroups).includes(skill), always('orange')],
                 [T, always('green')]
             ])
+
+export const Normal = {
+    G: [SkillGroup.General],
+    GS: [SkillGroup.General, SkillGroup.Strength],
+    GA: [SkillGroup.General, SkillGroup.Agility],
+    GP: [SkillGroup.General, SkillGroup.Passing],
+    S: [SkillGroup.Strength],
+    A: [SkillGroup.Agility],
+    GAP: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
+    GAS: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Strength],
+}
+
+export const Double = {
+    S: [SkillGroup.Increase, SkillGroup.Strength],
+    ASP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing],
+    AP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
+    AS: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength],
+    SP: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing],
+    AMP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    GAPM: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    P: [SkillGroup.Increase, SkillGroup.Passing],
+    GAP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
+    GSP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Strength, SkillGroup.Passing],
+}

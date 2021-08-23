@@ -5,7 +5,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { DeleteButton, Panel, SkillGroupTags } from "../components";
-import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
+import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
@@ -24,7 +24,7 @@ const PiecesDropZone: React.FC =
     ({children}) => {
         const [, dispatch] = useAppState()
 
-        const drop = (positional: Positional) =>
+        const drop = (positional: Position) =>
             dispatch({type: 'addPiece', positional })
 
         const [props, ref] = useDrop(() => ({
@@ -66,8 +66,8 @@ const PlayerCardTitle: React.FC<{title: string, subtitle: string}> =
         <><span style={{fontSize: '100%'}}>{title}</span> { subtitle ? <><b style={{fontSize: '90%'}}>{subtitle}</b></> : ''}</>
 
 const PieceCardTitle: React.FC<{piece: Piece}> =
-    ({piece: { title: subtitle, positional: { title }}}) =>
-        <PlayerCardTitle {...{title, subtitle}}/>
+    ({piece: { title: subtitle, positional: { title, max }}}) =>
+        <PlayerCardTitle {...{title: `${title} (0-${max})`, subtitle}}/>
 
 const PieceCount: React.FC<{value: number, increase: () => void, decrease: () => void}> =
     ({value, increase, decrease}) => {
@@ -148,7 +148,7 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
             <Select<Skill[]>
                 value={value}
                 showSearch
-                placeholder='Choose Skill'
+                placeholder={ disabled ? '' : 'Choose Skill' }
                 mode='multiple'
                 size='middle'
                 bordered={false}
@@ -166,7 +166,6 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                             <Select.OptGroup key={skillGroup} label={<b style={{color: colorForSkillGroup(skillGroup)}}>{skillGroup}</b>}>
                                 {
                                     Skills[skillGroup]
-                                        // .filter(skill => !selectedSkillNames.includes(skill))
                                         .filter(skillIsntSelected)
                                         .map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)
                                 }
@@ -210,8 +209,11 @@ const PieceCard: React.FC<{piece: Piece}> =
 const PieceList: React.FC =
     () => {
         const [{pieces}] = useAppState()
+
+        const sorted = pieces.sort((a, b) => a.positional.cost - b.positional.cost)
+
         return <>
-            {pieces.map(piece => <PieceCard key={piece.title} {...{piece}}/>)}
+            {sorted.map(piece => <PieceCard key={piece.title} {...{piece}}/>)}
         </>
     }
 

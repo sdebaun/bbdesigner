@@ -1,9 +1,9 @@
 import { costOfSkill, Skill } from "./Skill";
-import { Positional } from "./teams";
+import { Position } from "./Position";
 
 export type Piece = {
     title: string,
-    positional: Positional,
+    positional: Position,
     addedSkills: Skill[],
     count: number,
 }

@@ -4,7 +4,7 @@ import { useDrag } from "react-dnd"
 import { useAppState } from "../AppState"
 import { SkillGroupTags, TeamAssets } from "../components"
 import { SkillTags } from "../components/SkillTags"
-import { Positional, TEAM_TYPES } from "../models"
+import { Position, TeamTypes } from "../models"
 import { Upgrades } from "../models/Upgrade"
 
 type Stats = {
@@ -24,11 +24,11 @@ const StatsTable: React.FC<Stats> =
             </Table>
     }
 
-const PositionalCardTitle: React.FC<{positional: Positional}> =
+const PositionalCardTitle: React.FC<{positional: Position}> =
     ({positional}) =>
         <>{positional.title} (0-{positional.max})</>
 
-const PositionalCard: React.FC<{positional: Positional}> =
+const PositionalCard: React.FC<{positional: Position}> =
     ({positional}) => {
         const [{opacity}, ref] = useDrag(
             () => ({
@@ -77,12 +77,16 @@ export const TeamTypeInfo: React.FC = () => {
 
     if (!selectedTeamType) return <></>
 
-    const teamType = TEAM_TYPES[selectedTeamType]
+    const teamType = TeamTypes[selectedTeamType]
 
     return <>
         <div style={{padding: '8px 0px 8px 0px'}}>
         <TeamAssetCosts {...teamType}/>
         </div>
-        {teamType.positionals.map(positional => <PositionalCard key={positional.title} {...{positional}}/>)}
+        {
+            teamType.positions
+                .sort((a, b) => a.cost - b.cost)
+                .map(positional => <PositionalCard key={positional.title} {...{positional}}/>)
+        }
     </>
 }
