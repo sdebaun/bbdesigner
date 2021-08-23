@@ -37,7 +37,7 @@ export const HighElfCatcher: Position = prepend({
 export const HighElfBlitzer: Position = prepend({
     title: 'Blitzer',
     ma: 7, st: 3, ag: 4, av: 8,
-    startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
+    startingSkills: ['Block'],
     normal: Normal.GA,
     double: Double.SP,
     cost: 100,
