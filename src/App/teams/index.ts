@@ -16,6 +16,8 @@ import { Goblin } from './Goblin'
 import { ViolenceTogether } from './ViolenceTogether'
 import { Skaven } from './Skaven'
 import { FarEastAssociation } from './FarEastAssociation'
+import { Chaos } from './Chaos'
+import { DarkElf } from './DarkElf'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -34,6 +36,8 @@ export type TeamTypeKey =
     | 'ViolenceTogether'
     | 'Skaven'
     | 'FarEastAssociation'
+    | 'Chaos'
+    | 'DarkElf'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -52,4 +56,6 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ViolenceTogether,
     Skaven,
     FarEastAssociation,
+    Chaos,
+    DarkElf,
 }
