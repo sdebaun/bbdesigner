@@ -1,7 +1,8 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Positional, Skill, TeamTypeKey, TEAM_TYPES, Upgrade, Upgrades } from './models'
+import { Piece, Position, Skill, TeamTypeKey, Upgrade, Upgrades } from './models'
 import { generateSlug } from 'random-word-slugs'
 import { filter, map, pipe, prop, sortBy } from 'ramda';
+import { TeamTypes } from './models/TeamType';
 
 export type AppState = {
   selectedTeamType?: TeamTypeKey
@@ -12,7 +13,7 @@ export type AppState = {
 type AppAction =
   | { type: 'selectTeamType', selectedTeamType: string }
   | { type: 'clearTeamType' }
-  | { type: 'addPiece', positional: Positional }
+  | { type: 'addPiece', positional: Position }
   | { type: 'deletePiece', title: string }
   | { type: 'increasePiece', title: string }
   | { type: 'decreasePiece', title: string }
@@ -36,7 +37,7 @@ export const AppStateContext = createContext<[AppState, Dispatch<AppAction>]>([i
 
 type AppReducer = (prev: AppState, action: AppAction) => AppState
 
-const makePiece: (positional: Positional) => Piece =
+const makePiece: (positional: Position) => Piece =
   positional => ({
     title: generateSlug(2),
     addedSkills: [],
@@ -70,7 +71,7 @@ const reduce: AppReducer =
   (prev, action) => {
     switch (action.type) {
       case 'selectTeamType':
-        if (!Object.keys(TEAM_TYPES).includes(action.selectedTeamType)) return prev
+        if (!Object.keys(TeamTypes).includes(action.selectedTeamType)) return prev
         return ({
           ...prev,
           pieces: [],

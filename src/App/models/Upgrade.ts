@@ -1,5 +1,12 @@
 import { map, pipe, sum } from "ramda"
 
+export const BASE_UPGRADE_COSTS: Omit<Upgrades, 'Team Reroll'> = {
+    Apothecary: 50,
+    Coach: 10,
+    Cheerleader: 10,
+    "Fan Factor": 10,
+}
+
 export type Upgrade =
     | 'Team Reroll'
     | 'Cheerleader'

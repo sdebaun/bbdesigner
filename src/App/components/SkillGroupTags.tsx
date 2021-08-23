@@ -1,5 +1,5 @@
 import { Tag } from "antd"
-import { Positional, SkillGroup } from "../models"
+import { Position, SkillGroup } from "../models"
 
 const colorFor = (skillGroup: SkillGroup, normal: SkillGroup[], double: SkillGroup[]) => {
     if (normal.includes(skillGroup)) return 'green'
@@ -7,11 +7,11 @@ const colorFor = (skillGroup: SkillGroup, normal: SkillGroup[], double: SkillGro
     return 'red'
 }
 
-const SkillGroupTag: React.FC<{positional: Positional, skillGroup: SkillGroup}> =
+const SkillGroupTag: React.FC<{positional: Position, skillGroup: SkillGroup}> =
     ({skillGroup, positional: { normal, double }}) =>
         <Tag color={colorFor(skillGroup, normal, double)}>{skillGroup.toString()[0]}</Tag>
 
-export const SkillGroupTags: React.FC<{positional: Positional}> =
+export const SkillGroupTags: React.FC<{positional: Position}> =
     ({positional}) =>
         <>
             <SkillGroupTag skillGroup={SkillGroup.General} {...{positional}}/>

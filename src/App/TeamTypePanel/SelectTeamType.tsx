@@ -1,6 +1,14 @@
 import { Select } from "antd"
+import { map, pipe, toPairs } from "ramda"
 import { useAppState } from "../AppState"
-import { TEAM_TYPE_SELECT_OPTIONS } from "../models"
+import { TeamTypes, TeamType } from '../models'
+
+const mapDataToOptions = pipe<typeof TeamTypes, [string, TeamType][], { value: string, label: string }[]>(
+  toPairs,
+  map(([key, teamType]) => ({ value: key, label: teamType.title }))
+)
+
+const options = mapDataToOptions(TeamTypes)
 
 export const SelectTeamType: React.FC = () => {
     const [{selectedTeamType: value}, dispatch] = useAppState()
@@ -11,6 +19,8 @@ export const SelectTeamType: React.FC = () => {
     const onClear = () =>
         dispatch({type: 'clearTeamType'})
   
-    return <Select {...{value, onChange, onClear}} allowClear placeholder='Choose team type' size='large' options={TEAM_TYPE_SELECT_OPTIONS} style={{width: '100%'}}/>
-  
+    return <Select
+              {...{value, onChange, onClear, options}}
+              allowClear placeholder='Choose team type' size='large' style={{width: '100%'}}
+              />
   }

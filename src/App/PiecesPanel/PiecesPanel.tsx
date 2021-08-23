@@ -5,7 +5,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { DeleteButton, Panel, SkillGroupTags } from "../components";
-import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
+import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
@@ -24,7 +24,7 @@ const PiecesDropZone: React.FC =
     ({children}) => {
         const [, dispatch] = useAppState()
 
-        const drop = (positional: Positional) =>
+        const drop = (positional: Position) =>
             dispatch({type: 'addPiece', positional })
 
         const [props, ref] = useDrop(() => ({
