@@ -148,7 +148,7 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
             <Select<Skill[]>
                 value={value}
                 showSearch
-                placeholder='Choose Skill'
+                placeholder={ disabled ? '' : 'Choose Skill' }
                 mode='multiple'
                 size='middle'
                 bordered={false}
@@ -166,7 +166,6 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                             <Select.OptGroup key={skillGroup} label={<b style={{color: colorForSkillGroup(skillGroup)}}>{skillGroup}</b>}>
                                 {
                                     Skills[skillGroup]
-                                        // .filter(skill => !selectedSkillNames.includes(skill))
                                         .filter(skillIsntSelected)
                                         .map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)
                                 }

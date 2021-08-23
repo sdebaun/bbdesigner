@@ -162,7 +162,7 @@ export type ExtraordinarySkill =
     | 'Always Hungry'
     | 'Animosity'
     | 'Ball and Chain'
-    | 'Blood List'
+    | 'Blood Lust'
     | 'Bombadier'
     | 'Bone-Head'
     | 'Chainsaw'
@@ -191,7 +191,7 @@ export const Extraordinary: ExtraordinarySkill[] = [
     'Always Hungry',
     'Animosity',
     'Ball and Chain',
-    'Blood List',
+    'Blood Lust',
     'Bombadier',
     'Bone-Head',
     'Chainsaw',

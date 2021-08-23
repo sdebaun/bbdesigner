@@ -1,5 +1,4 @@
 import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "..";
-// import { Position } from "../teams";
 
 export const HobgoblinRunner: Position = {
     title: 'Hobgoblin Runner',

@@ -73,8 +73,7 @@ const reduce: AppReducer =
       case 'selectTeamType':
         if (!Object.keys(TeamTypes).includes(action.selectedTeamType)) return prev
         return ({
-          ...prev,
-          pieces: [],
+          ...initialState,
           selectedTeamType: action.selectedTeamType as TeamTypeKey,
         })
       case 'clearTeamType':
