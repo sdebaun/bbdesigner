@@ -1,44 +1,78 @@
-import { BASE_UPGRADE_COSTS, SkillGroup, TeamType, Position } from "../models";
+import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle } from "../models";
+
+const title = 'Orc'
+
+const prepend = prependPositionTitle(title)
+
+export const OrcLineman: Position = prepend({
+    title: 'Lineman',
+    ma: 5, st: 3, ag: 3, av: 9,
+    startingSkills: [],
+    normal: Normal.G,
+    double: Double.ASP,
+    cost: 50,
+    max: 16,
+})
+
+export const OrcBlitzer: Position = prepend({
+    title: 'Blitzer',
+    ma: 6, st: 3, ag: 3, av: 9,
+    startingSkills: ['Block'],
+    normal: Normal.GS,
+    double: Double.AP,
+    cost: 80,
+    max: 4,
+})
+
+export const OrcBlackOrcBlocker: Position = prepend({
+    title: 'Black Orc Blocker',
+    ma: 4, st: 4, ag: 2, av: 9,
+    startingSkills: [],
+    normal: Normal.GS,
+    double: Double.AP,
+    cost: 80,
+    max: 4,
+})
+
+export const OrcThrower: Position = prepend({
+    title: 'Thrower',
+    ma: 5, st: 3, ag: 3, av: 8,
+    startingSkills: ['Pass', 'Sure Hands'],
+    normal: Normal.GP,
+    double: Double.AS,
+    cost: 70,
+    max: 2,
+})
+
+export const OrcGoblin: Position = prepend({
+    title: 'Goblin',
+    ma: 6, st: 2, ag: 3, av: 7,
+    startingSkills: ['Dodge', 'Right Stuff', 'Stunty'],
+    normal: Normal.A,
+    double: Double.GSP,
+    cost: 120,
+    max: 4,
+})
+
+export const OrcTroll: Position = prepend({
+    title: 'Troll',
+    ma: 4, st: 5, ag: 1, av: 9,
+    startingSkills: ['Loner', 'Always Hungry', 'Mighty Blow', 'Really Stupid', 'Regeneration', 'Throw Team-Mate'],
+    normal: Normal.S,
+    double: Double.GAP,
+    cost: 110,
+    max: 1,
+})
 
 export const Orc: TeamType = {
-    title: 'Orc',
-    upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
+    title,
+    upgradeCosts: {'Team Reroll': 60, ...BASE_UPGRADE_COSTS},
     positions: [
-        {
-            title: 'Hobgoblin Runner',
-            ma: 6, st: 3, ag: 3, av: 7,
-            normal: [SkillGroup.General],
-            double: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Agility, SkillGroup.Passing],
-            startingSkills: [],
-            cost: 40,
-            max: 16,
-        },
-        {
-            title: 'Chaos Dwarf Blocker',
-            ma: 4, st: 3, ag: 2, av: 9,
-            normal: [SkillGroup.General, SkillGroup.Strength],
-            double: [SkillGroup.Increase, SkillGroup.Mutation, SkillGroup.Agility, SkillGroup.Passing],
-            startingSkills: ['Block', 'Tackle', 'Thick Skull'],
-            cost: 70,
-            max: 6,
-        },
-        {
-            title: 'Bull Centaur Blitzer',
-            ma: 6, st: 4, ag: 2, av: 9,
-            normal: [SkillGroup.General, SkillGroup.Strength],
-            double: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
-            startingSkills: ['Sprint', 'Sure Feet', 'Thick Skull'],
-            cost: 130,
-            max: 2,
-        },
-        {
-            title: 'Enslaved Minotaur',
-            ma: 5, st: 5, ag: 2, av: 8,
-            normal: [SkillGroup.Strength],
-            double: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing, SkillGroup.Mutation],
-            startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
-            cost: 50,
-            max: 16,
-        }
+        OrcLineman,
+        OrcBlitzer,
+        OrcBlackOrcBlocker,
+        OrcThrower,
+        OrcGoblin,
+        OrcTroll
     ]
 }

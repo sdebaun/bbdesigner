@@ -1,4 +1,4 @@
-import { lensProp, over, replace } from "ramda";
+import { lensProp, over, prepend, replace } from "ramda";
 import { Skill, SkillGroup } from "./Skill";
 
 export type Position = {
@@ -21,3 +21,6 @@ export const PositionLens = {
 export const replacePositionTitle: (from: string, to: string) => (position: Position) => Position =
     (from, to) =>
         over(PositionLens.title, replace(from, to))
+
+export const prependPositionTitle: (to: string) => (position: Position) => Position =
+    to => over(PositionLens.title, s => `${to} ${s}`)

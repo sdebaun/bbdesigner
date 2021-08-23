@@ -9,6 +9,7 @@ import { Necromantic } from './Necromantic'
 import { Khemri } from './Khemri'
 import { AfterlifeUnited } from './AfterlifeUnited'
 import { SuperiorBeingRing } from './SuperiorBeingRing'
+import { Orc } from './Orc'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -20,6 +21,7 @@ export type TeamTypeKey =
     | 'Necromantic'
     | 'Khemri'
     | 'AfterlifeUnited'
+    | 'Orc'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -31,4 +33,5 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     Necromantic,
     Khemri,
     AfterlifeUnited,
+    Orc,
 }
