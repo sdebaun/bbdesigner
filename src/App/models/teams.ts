@@ -1,4 +1,5 @@
 import { map, pipe, toPairs } from "ramda"
+import { Piece } from "./Piece"
 import { Skill, SkillGroup } from "./Skill"
 
 export type Positional = {
@@ -16,14 +17,8 @@ export type Positional = {
 
 export type TeamType = {
     title: string
+    dataEntryBy?: string
     positionals: Positional[]
-}
-
-export type Piece = {
-    title: string,
-    positional: Positional,
-    addedSkills: Skill[],
-    count: number,
 }
 
 export type Team = {
@@ -33,6 +28,7 @@ export type Team = {
 export type TeamTypeKey =
     | 'AFTERLIFE_UNITED'
     | 'VIOLENCE_TOGETHER'
+    | 'CHAOS_DWARF'
 
 export type TeamTypeDictionary = { [key in TeamTypeKey]: TeamType }
 
@@ -120,9 +116,52 @@ const VIOLENCE_TOGETHER: TeamType = {
 
     ],
 }
+
+const CHAOS_DWARF: TeamType = {
+    title: 'Chaos Dwarf',
+    positionals: [
+        {
+            title: 'Hobgoblin Runner',
+            ma: 6, st: 3, ag: 3, av: 7,
+            normal: [SkillGroup.General],
+            double: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: [],
+            cost: 40,
+            max: 16,
+        },
+        {
+            title: 'Chaos Dwarf Blocker',
+            ma: 4, st: 3, ag: 2, av: 9,
+            normal: [SkillGroup.General, SkillGroup.Strength],
+            double: [SkillGroup.Increase, SkillGroup.Mutation, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Block', 'Tackle', 'Thick Skull'],
+            cost: 70,
+            max: 6,
+        },
+        {
+            title: 'Bull Centaur Blitzer',
+            ma: 6, st: 4, ag: 2, av: 9,
+            normal: [SkillGroup.General, SkillGroup.Strength],
+            double: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
+            startingSkills: ['Sprint', 'Sure Feet', 'Thick Skull'],
+            cost: 130,
+            max: 2,
+        },
+        {
+            title: 'Enslaved Minotaur',
+            ma: 5, st: 5, ag: 2, av: 8,
+            normal: [SkillGroup.Strength],
+            double: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing, SkillGroup.Mutation],
+            startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
+            cost: 50,
+            max: 16,
+        }
+    ]
+}
 export const TEAM_TYPES: TeamTypeDictionary = {
     AFTERLIFE_UNITED,
     VIOLENCE_TOGETHER,
+    CHAOS_DWARF,
 }
 
 const mapDataToOptions = pipe<TeamTypeDictionary, [string, TeamType][], SelectOption[]>(

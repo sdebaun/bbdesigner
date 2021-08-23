@@ -1,11 +1,11 @@
 import { Empty, Card, Row, Col, Table, Tag, Select, Button } from "antd";
 import Column from "antd/lib/table/Column";
-import { always, cond, isEmpty, prop, T } from "ramda";
+import { always, cond, includes, isEmpty, not, pipe, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { Panel, SkillGroupTags } from "../components";
-import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp } from "../models";
+import { Piece, Positional, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
@@ -70,22 +70,25 @@ const PieceCardTitle: React.FC<{piece: Piece}> =
         <PlayerCardTitle {...{title, subtitle}}/>
 
 const PieceCardExtra: React.FC<{piece: Piece}> =
-    ({piece: { title, count, positional: { cost }}}) => {
+    ({piece}) => {
+    // ({piece: { title, count, positional: { cost }}}) => {
         const [, dispatch] = useAppState()
 
+        const cost = pieceCost(piece)
+        
         const deleteOnClick = () =>
-            dispatch({type: 'deletePiece', title })
+            dispatch({type: 'deletePiece', title: piece.title })
 
         const increaseOnClick = () =>
-            dispatch({type: 'increasePiece', title })
+            dispatch({type: 'increasePiece', title: piece.title })
 
         const decreaseOnClick = () =>
-            dispatch({type: 'decreasePiece', title })
+            dispatch({type: 'decreasePiece', title: piece.title })
 
         return (
             <Row gutter={8}>
                 <Col>
-                    { count > 0 ?
+                    { piece.count > 0 ?
                         <Button danger shape='circle' size='small' onClick={decreaseOnClick}>-</Button> :
                         <Button danger shape='circle' size='small' onClick={deleteOnClick}>X</Button>
                     }
@@ -94,7 +97,7 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
                     <Button type='primary' shape='circle' size='small' onClick={increaseOnClick}>+</Button>
                 </Col>
                 <Col>
-                    {count} @
+                    {piece.count} @
                 </Col>
                 <Col>
                     <Tag>{cost}</Tag>
@@ -102,6 +105,9 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
             </Row>
         )
     }
+
+const includedIn: <T>(list: T[]) => (item: T) => boolean =
+    list => item => includes(item)(list)
 
 export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], addedSkills: Skill[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
     ({title, startingSkills, addedSkills, normal, double, disabled = false}) => {
@@ -111,20 +117,12 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
 
         const selectedSkillNames = [...startingSkills, ...addedSkills]
 
-        const generalSkillOptions = Skills.General
-            .filter(skillName => !selectedSkillNames.includes(skillName))
-        const strengthSkillOptions = Skills.Strength
-            .filter(skillName => !selectedSkillNames.includes(skillName))
-        const agilitySkillOptions = Skills.Agility
-            .filter(skillName => !selectedSkillNames.includes(skillName))
-        // const passingSkillOptions = SKILLS_PASSING
-        //     .map(skill => skill.key)
-        //     .filter(skillName => !selectedSkillNames.includes(skillName))
-        const mutationSkillOptions = Skills.Mutation
-            .filter(skillName => !selectedSkillNames.includes(skillName))
-        const statSkillOptions = Skills.Increase
-            .filter(skillName => !selectedSkillNames.includes(skillName))
-                
+        const allowedSkillGroups = [...normal, ...double]
+
+        // const skillIsntSelected = (skill: Skill) => !selectedSkillNames.includes(skill)
+        const skillIsntSelected: (skill: Skill) => boolean =
+            pipe( includedIn(selectedSkillNames), not )
+
         const colorForSkillGroup: (skillGroup: SkillGroup) => string = cond([
             [(skillGroup) => normal.includes(skillGroup), always('green')],
             [(skillGroup) => double.includes(skillGroup), always('orange')],
@@ -159,23 +157,21 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                 onSelect={onSelect}
                 disabled={disabled}
                 >
-                    {/* <SelectSkillsOptionGroup skillNames={generalSkillOptions} color={colorFor(SkillGroup.General)}/> */}
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.General)}}>General</b>}>
-                        {generalSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
-                    </Select.OptGroup>
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Strength)}}>Strength</b>}>
-                        {strengthSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
-                    </Select.OptGroup>
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Agility)}}>Agility</b>}>
-                        {agilitySkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
-                    </Select.OptGroup>
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Passing)}}>Passing</b>}>
-                        {mutationSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
-                    </Select.OptGroup>
-                    <Select.OptGroup label={<b style={{color: colorForSkillGroup(SkillGroup.Increase)}}>Stat</b>}>
-                        {statSkillOptions.map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)}
-                    </Select.OptGroup>
-
+                {
+                    Object.values(SkillGroup).map(skillGroup => {
+                        if (!allowedSkillGroups.includes(skillGroup)) return ''
+                        return (
+                            <Select.OptGroup key={skillGroup} label={<b style={{color: colorForSkillGroup(skillGroup)}}>{skillGroup}</b>}>
+                                {
+                                    Skills[skillGroup]
+                                        // .filter(skill => !selectedSkillNames.includes(skill))
+                                        .filter(skillIsntSelected)
+                                        .map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)
+                                }
+                            </Select.OptGroup>
+                        )
+                    })
+                }
             </Select>
         )
     }
@@ -231,3 +227,4 @@ export const PiecesPanel: React.FC = () => {
             </Panel>
     )
 }
+
