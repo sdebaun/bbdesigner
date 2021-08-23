@@ -121,15 +121,17 @@ export const TeamBuildPanel: React.FC = () => {
 
     const cost = totalCost(pieces) + costOfUpgrades(teamType.upgradeCosts, upgrades)
 
+    const playerCount = totalPlayers(pieces)
+
     return (
             <Panel>
                 <div style={{padding: '8px 8px 0px 8px'}}>
-                    <h2>{cost} TV</h2>
+                    <h2>{cost} TV <span style={{fontSize: '80%'}}>{playerCount}/11</span></h2>
                 </div>
                 <div style={{padding: '0px 8px 8px 8px'}}>
                     <TeamAssetCounts {...{upgrades}}/>
                 </div>
-                {totalPlayers(pieces) === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
+                {playerCount === 0 ? <NoPiecesMessage/> : <PlayerTable {...{pieces}}/>}
             </Panel>
     )
 }

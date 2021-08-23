@@ -285,11 +285,15 @@ export const Normal = {
     A: [SkillGroup.Agility],
     GAP: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
     GAS: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Strength],
+    GSM: [SkillGroup.General, SkillGroup.Strength, SkillGroup.Mutation],
 }
 
 export const Double = {
     S: [SkillGroup.Increase, SkillGroup.Strength],
     ASP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing],
+    ASPM: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
+    SPM: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
+    ASM: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Mutation],
     AP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
     AS: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength],
     SP: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing],
