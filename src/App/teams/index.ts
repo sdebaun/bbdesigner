@@ -18,6 +18,8 @@ import { Skaven } from './Skaven'
 import { FarEastAssociation } from './FarEastAssociation'
 import { Chaos } from './Chaos'
 import { DarkElf } from './DarkElf'
+import { ChaoticPlayerPact } from './ChaoticPlayerPact'
+import { Underworld } from './Underworld'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -38,6 +40,8 @@ export type TeamTypeKey =
     | 'FarEastAssociation'
     | 'Chaos'
     | 'DarkElf'
+    | 'ChaoticPlayerPact'
+    | 'Underworld'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -58,4 +62,6 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     FarEastAssociation,
     Chaos,
     DarkElf,
+    ChaoticPlayerPact,
+    Underworld,
 }
