@@ -163,7 +163,7 @@ export type ExtraordinarySkill =
     | 'Animosity'
     | 'Ball and Chain'
     | 'Blood Lust'
-    | 'Bombadier'
+    | 'Bombardier'
     | 'Bone-Head'
     | 'Chainsaw'
     | 'Decay'
@@ -192,7 +192,7 @@ export const Extraordinary: ExtraordinarySkill[] = [
     'Animosity',
     'Ball and Chain',
     'Blood Lust',
-    'Bombadier',
+    'Bombardier',
     'Bone-Head',
     'Chainsaw',
     'Decay',
@@ -283,6 +283,7 @@ export const Normal = {
     GP: [SkillGroup.General, SkillGroup.Passing],
     S: [SkillGroup.Strength],
     A: [SkillGroup.Agility],
+    AP: [SkillGroup.Agility, SkillGroup.Passing],
     GAP: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
     GAS: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Strength],
     GSM: [SkillGroup.General, SkillGroup.Strength, SkillGroup.Mutation],
@@ -302,4 +303,5 @@ export const Double = {
     P: [SkillGroup.Increase, SkillGroup.Passing],
     GAP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
     GSP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Strength, SkillGroup.Passing],
+    GS: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Strength],
 }
