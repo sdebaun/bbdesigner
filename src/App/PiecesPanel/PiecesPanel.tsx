@@ -4,7 +4,7 @@ import { always, cond, includes, isEmpty, not, pipe, prop, T } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
-import { DeleteButton, Panel, SkillGroupTags } from "../components";
+import { CloneButton, DeleteButton, Panel, SkillGroupTags } from "../components";
 import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
@@ -93,10 +93,14 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
         const decreaseOnClick = () =>
             dispatch({type: 'decreasePiece', title: piece.title })
 
+        const cloneOnClick = () =>
+            dispatch({type: 'clonePiece', title: piece.title })
+
         return (
             <Row gutter={8}>
                 <Col>
                     <DeleteButton onClick={deleteOnClick}/>
+                    <CloneButton onClick={cloneOnClick}/>
                 </Col>
                 <Col>
                     <PieceCount value={piece.count} increase={increaseOnClick} decrease={decreaseOnClick}/>
