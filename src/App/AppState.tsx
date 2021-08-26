@@ -58,7 +58,7 @@ const reducer: AppReducer =
     console.log(JSON.stringify(action, null, 2))
 
     const next = reduce(prev, action)
-    // console.log(JSON.stringify(next, null, 2))
+    console.log(JSON.stringify(next, null, 2))
 
     return next
   }

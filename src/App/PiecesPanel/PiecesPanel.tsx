@@ -166,11 +166,14 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                 {
                     Object.values(SkillGroup).map(skillGroup => {
                         if (!allowedSkillGroups.includes(skillGroup)) return ''
+                        // const selectableSkills = (skillGroup === SkillGroup.Increase) ?
+                        //     Skills[skillGroup] :
+                        //     Skills[skillGroup].filter(skillIsntSelected)
+                        const selectableSkills = Skills[skillGroup].filter(skillIsntSelected)
                         return (
                             <Select.OptGroup key={skillGroup} label={<b style={{color: colorForSkillGroup(skillGroup)}}>{skillGroup}</b>}>
                                 {
-                                    Skills[skillGroup]
-                                        .filter(skillIsntSelected)
+                                    selectableSkills
                                         .map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)
                                 }
                             </Select.OptGroup>
