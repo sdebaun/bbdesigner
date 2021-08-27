@@ -11,10 +11,10 @@ export type WithStats = {
 }
 
 export const statsUp: <T extends WithStats>(withStats: T, skills: Skill[]) => T =
-    (withStats, skills) => ({
+    (withStats) => ({
         ...withStats,
-        ma: withStats.ma + (skills.includes('MA+') ? 1 : 0),
-        st: withStats.st + (skills.includes('ST+') ? 1 : 0),
-        ag: withStats.ag + (skills.includes('AG+') ? 1 : 0),
-        av: withStats.av + (skills.includes('AV+') ? 1 : 0),
+        // ma: withStats.ma + (skills.includes('+MA') ? 1 : 0),
+        // st: withStats.st + (skills.includes('+ST') ? 1 : 0),
+        // ag: withStats.ag + (skills.includes('+AG') ? 1 : 0),
+        // av: withStats.av + (skills.includes('+AV') ? 1 : 0),
     })

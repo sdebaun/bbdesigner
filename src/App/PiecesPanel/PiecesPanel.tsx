@@ -1,6 +1,7 @@
 import { Empty, Card, Row, Col, Table, Tag, Select, InputNumber, Input } from "antd";
+import { LabeledValue } from "antd/lib/select";
 import Column from "antd/lib/table/Column";
-import { always, cond, includes, isEmpty, not, pipe, prop, T, times } from "ramda";
+import { always, concat, cond, includes, isEmpty, join, not, pipe, prop, T, times } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
@@ -66,19 +67,19 @@ const StatsTable: React.FC<StatsTableProps> =
         return <Table bordered className='stats-table-editable' dataSource={dataSource} size='small' pagination={false} style={{height: '100%'}}>
                 <Column title='MA' render={
                     (_, {stats: {ma: stat}, increase: {ma: increase}}: StatsTableProps) =>
-                         <InputNumber value={stat + increase} onStep={onStep('ma')} style={{width: '100%'}}/>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('ma')} style={{width: '100%'}}/>
                 }/>
                 <Column title='ST' render={
                     (_, {stats: {st: stat}, increase: {st: increase}}: StatsTableProps) =>
-                         <InputNumber value={stat + increase} onStep={onStep('st')} style={{width: '100%'}}/>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('st')} style={{width: '100%'}}/>
                 }/>
                 <Column title='AG' render={
                     (_, {stats: {ag: stat}, increase: {ag: increase}}: StatsTableProps) =>
-                         <InputNumber value={stat + increase} onStep={onStep('ag')} style={{width: '100%'}}/>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('ag')} style={{width: '100%'}}/>
                 }/>
                 <Column title='AV' render={
                     (_, {stats: {av: stat}, increase: {av: increase}}: StatsTableProps) =>
-                         <InputNumber value={stat + increase} onStep={onStep('av')} style={{width: '100%'}}/>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('av')} style={{width: '100%'}}/>
                 }/>
             </Table>
     }
@@ -142,19 +143,20 @@ type SkillTagProps = {
     value: Skill,
 }
 
+const increaseSkillFromCount: (stat: Stat) => (countZeroBased: number) => IncreaseSkill =
+    stat => count => `${join('', times(always('+'), count + 1))}${stat.toUpperCase()}` as IncreaseSkill
+
 export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], addedSkills: Skill[], normal: SkillGroup[], double: SkillGroup[], increase: WithStats, disabled?: boolean}> =
     ({title, startingSkills, addedSkills, normal, double, increase, disabled = false}) => {
         const [, dispatch] = useAppState()
 
         const increaseSkills: IncreaseSkill[] = [
-            ...times(always('MA+' as IncreaseSkill), increase.ma),
-            ...times(always('ST+' as IncreaseSkill), increase.st),
-            ...times(always('AG+' as IncreaseSkill), increase.ag),
-            ...times(always('AV+' as IncreaseSkill), increase.av),
+            ...times(increaseSkillFromCount('ma'), increase.ma),
+            ...times(increaseSkillFromCount('st'), increase.st),
+            ...times(increaseSkillFromCount('ag'), increase.ag),
+            ...times(increaseSkillFromCount('av'), increase.av),
         ]
-
-        const value = [...startingSkills, ...addedSkills, ...increaseSkills]
-
+ 
         const selectedSkillNames = [...startingSkills, ...addedSkills]
 
         const allowedSkillGroups = [...normal, ...double]
@@ -172,14 +174,24 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
             [skillName => startingSkills.includes(skillName), always('')],
             [skillName => groupsToSkills(normal).includes(skillName), always('green')],
             [skillName => groupsToSkills(double).includes(skillName), always('orange')],
+            [skillName => groupsToSkills([SkillGroup.Increase]).includes(skillName), always('orange')],
             [T, always('')]
         ])
+
+        type t = LabeledValue // key value label
+
+        const value = [...startingSkills, ...addedSkills, ...increaseSkills]
+
 
         const onSelect = (skill: Skill) =>
             dispatch({type: 'addSkillName', title, skill})
 
         const onClose = (skill: Skill) =>
             dispatch({type: 'removeSkillName', title, skill})
+
+        const isStartingOrIncrease: (skill: Skill) => boolean =
+            skill =>
+                startingSkills.includes(skill) || includedIn(increaseSkills)(skill as IncreaseSkill)
 
         return (
             <Select<Skill[]>
@@ -190,10 +202,10 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                 size='middle'
                 bordered={false}
                 style={{width: '100%', margin: -6}}
-                tagRender={({value}) =>
+                tagRender={({label, value}) =>
                     <Tag
                         onClose={() => onClose(value as Skill)}
-                        closable={!startingSkills.includes(value as Skill) && !disabled}
+                        closable={!isStartingOrIncrease(value as Skill) && !disabled}
                         color={colorForSkillName(value as Skill)}
                         >
                         {value}
