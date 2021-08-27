@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const HighElfLineman: Position = prepend({
     title: 'Lineman',
-    ma: 6, st: 3, ag: 4, av: 8,
+    stats: { ma: 6, st: 3, ag: 4, av: 8 },
     startingSkills: [],
     normal: Normal.GA,
     double: Double.SP,
@@ -16,7 +16,7 @@ export const HighElfLineman: Position = prepend({
 
 export const HighElfThrower: Position = prepend({
     title: 'Thrower',
-    ma: 6, st: 3, ag: 4, av: 8,
+    stats: { ma: 6, st: 3, ag: 4, av: 8 },
     startingSkills: ['Pass', 'Safe Throw'],
     normal: Normal.GAP,
     double: Double.S,
@@ -26,7 +26,7 @@ export const HighElfThrower: Position = prepend({
 
 export const HighElfCatcher: Position = prepend({
     title: 'Catcher',
-    ma: 8, st: 3, ag: 4, av: 7,
+    stats: { ma: 8, st: 3, ag: 4, av: 7 },
     startingSkills: ['Catch'],
     normal: Normal.GA,
     double: Double.SP,
@@ -36,7 +36,7 @@ export const HighElfCatcher: Position = prepend({
 
 export const HighElfBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 7, st: 3, ag: 4, av: 8,
+    stats: { ma: 7, st: 3, ag: 4, av: 8 },
     startingSkills: ['Block'],
     normal: Normal.GA,
     double: Double.SP,

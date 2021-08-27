@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const BrettonianLineman: Position = prepend({
     title: 'Lineman',
-    ma: 6, st: 3, ag: 2, av: 7,
+    stats: { ma: 6, st: 3, ag: 2, av: 7 },
     startingSkills: ['Fend'],
     normal: Normal.G,
     double: Double.ASP,
@@ -16,7 +16,7 @@ export const BrettonianLineman: Position = prepend({
 
 export const BrettonianYeoman: Position = prepend({
     title: 'Yeoman',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: ['Wrestle'],
     normal: Normal.GS,
     double: Double.AP,
@@ -26,7 +26,7 @@ export const BrettonianYeoman: Position = prepend({
 
 export const BrettonianBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 7, st: 3, ag: 4, av: 8,
+    stats: { ma: 7, st: 3, ag: 4, av: 8 },
     startingSkills: ['Block', 'Dauntless', 'Catch'],
     normal: Normal.GAP,
     double: Double.S,

@@ -2,7 +2,7 @@ import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double } from "../model
 
 export const VampireThrall: Position = {
     title: 'Thrall',
-    ma: 6, st: 3, ag: 3, av: 7,
+    stats: { ma: 6, st: 3, ag: 3, av: 7 },
     startingSkills: [],
     normal: Normal.G,
     double: Double.ASP,
@@ -12,7 +12,7 @@ export const VampireThrall: Position = {
 
 export const VampireVampire: Position = {
     title: 'Vampire',
-    ma: 6, st: 4, ag: 4, av: 8,
+    stats: { ma: 6, st: 4, ag: 4, av: 8 },
     startingSkills: ['Regeneration', 'Hypnotic Gaze', 'Blood Lust'],
     normal: Normal.GAS,
     double: Double.P,

@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const LizardmanSkink: Position = prepend({
     title: 'Skink',
-    ma: 8, st: 2, ag: 3, av: 7,
+    stats: { ma: 8, st: 2, ag: 3, av: 7 },
     startingSkills: ['Dodge', 'Stunty'],
     normal: Normal.A,
     double: Double.GSP,
@@ -16,7 +16,7 @@ export const LizardmanSkink: Position = prepend({
 
 export const LizardmanSaurus: Position = prepend({
     title: 'Saurus',
-    ma: 6, st: 4, ag: 1, av: 9,
+    stats: { ma: 6, st: 4, ag: 1, av: 9 },
     startingSkills: [],
     normal: Normal.GS,
     double: Double.AP,
@@ -26,7 +26,7 @@ export const LizardmanSaurus: Position = prepend({
 
 export const LizardmanKroxigor: Position = prepend({
     title: 'Kroxigor',
-    ma: 6, st: 5, ag: 1, av: 9,
+    stats: { ma: 6, st: 5, ag: 1, av: 9 },
     startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Prehensile Tail', 'Thick Skull'],
     normal: Normal.S,
     double: Double.GAP,

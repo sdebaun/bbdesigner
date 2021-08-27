@@ -15,7 +15,7 @@ export const NecromanticWightBlitzer = rename(UndeadWightBlitzer)
 
 export const NecromanticFleshGolem: Position = prepend({
     title: 'Flesh Golem',
-    ma: 4, st: 4, ag: 2, av: 9,
+    stats: { ma: 4, st: 4, ag: 2, av: 9 },
     startingSkills: ['Regeneration', 'Stand Firm', 'Thick Skull'],
     normal: Normal.GS,
     double: Double.AP,
@@ -25,7 +25,7 @@ export const NecromanticFleshGolem: Position = prepend({
 
 export const NecromanticWerewolf: Position = prepend({
     title: 'Werewolf',
-    ma: 3, st: 5, ag: 1, av: 9,
+    stats: { ma: 3, st: 5, ag: 1, av: 9 },
     startingSkills: ['Claw', 'Frenzy', 'Regeneration'],
     normal: Normal.GA,
     double: Double.SP,

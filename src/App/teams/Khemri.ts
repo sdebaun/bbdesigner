@@ -11,7 +11,7 @@ export const KhemriSkeleton = rename(UndeadSkeleton)
 
 export const KhemriThrower: Position = prepend({
     title: 'Thrower',
-    ma: 6, st: 3, ag: 2, av: 7,
+    stats: { ma: 6, st: 3, ag: 2, av: 7 },
     startingSkills: ['Pass', 'Regeneration', 'Sure Hands'],
     normal: Normal.GP,
     double: Double.AS,
@@ -21,7 +21,7 @@ export const KhemriThrower: Position = prepend({
 
 export const KhemriBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 6, st: 3, ag: 2, av: 8,
+    stats: { ma: 6, st: 3, ag: 2, av: 8 },
     startingSkills: ['Block', 'Regeneration'],
     normal: Normal.GS,
     double: Double.AP,
@@ -31,7 +31,7 @@ export const KhemriBlitzer: Position = prepend({
 
 export const KhemriTombGuardian: Position = prepend({
     title: 'Tomb Guardian',
-    ma: 4, st: 5, ag: 1, av: 9,
+    stats: { ma: 4, st: 5, ag: 1, av: 9 },
     startingSkills: ['Regeneration', 'Decay'],
     normal: Normal.S,
     double: Double.GAP,

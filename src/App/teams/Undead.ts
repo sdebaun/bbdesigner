@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const UndeadSkeleton: Position = prepend({
     title: 'Skeleton',
-    ma: 5, st: 3, ag: 2, av: 7,
+    stats: { ma: 5, st: 3, ag: 2, av: 7 },
     startingSkills: ['Regeneration', 'Thick Skull'],
     normal: Normal.G,
     double: Double.ASP,
@@ -16,7 +16,7 @@ export const UndeadSkeleton: Position = prepend({
 
 export const UndeadZombie: Position = prepend({
     title: 'Zombie',
-    ma: 4, st: 3, ag: 2, av: 8,
+    stats: { ma: 4, st: 3, ag: 2, av: 8 },
     startingSkills: ['Regeneration'],
     normal: Normal.G,
     double: Double.ASP,
@@ -26,7 +26,7 @@ export const UndeadZombie: Position = prepend({
 
 export const UndeadGhoulRunner: Position = prepend({
     title: 'Ghoul Runner',
-    ma: 7, st: 3, ag: 3, av: 7,
+    stats: { ma: 7, st: 3, ag: 3, av: 7 },
     startingSkills: ['Dodge'],
     normal: Normal.GA,
     double: Double.SP,
@@ -36,7 +36,7 @@ export const UndeadGhoulRunner: Position = prepend({
 
 export const UndeadWightBlitzer: Position = prepend({
     title: 'Wight Blitzer',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: ['Block', 'Regeneration'],
     normal: Normal.GS,
     double: Double.AP,
@@ -46,7 +46,7 @@ export const UndeadWightBlitzer: Position = prepend({
 
 export const UndeadMummy: Position = prepend({
     title: 'Mummy',
-    ma: 3, st: 5, ag: 1, av: 9,
+    stats: { ma: 3, st: 5, ag: 1, av: 9 },
     startingSkills: ['Mighty Blow', 'Regeneration'],
     normal: Normal.S,
     double: Double.GAP,

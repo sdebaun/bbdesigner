@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const OgreGnoblar: Position = prepend({
     title: 'Gnoblar',
-    ma: 5, st: 1, ag: 3, av: 5,
+    stats: { ma: 5, st: 1, ag: 3, av: 5 },
     startingSkills: ['Dodge', 'Right Stuff', 'Side Step', 'Stunty', 'Titchy'],
     normal: Normal.A,
     double: Double.GSP,
@@ -16,7 +16,7 @@ export const OgreGnoblar: Position = prepend({
 
 export const OgreOgre: Position = prepend({
     title: 'Ogre',
-    ma: 5, st: 5, ag: 2, av: 9,
+    stats: { ma: 5, st: 5, ag: 2, av: 9 },
     startingSkills: ['Bone-Head', 'Mighty Blow', 'Thick Skull', 'Throw Team-Mate'],
     normal: Normal.S,
     double: Double.GAP,

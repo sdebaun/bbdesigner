@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const OrcLineman: Position = prepend({
     title: 'Lineman',
-    ma: 5, st: 3, ag: 3, av: 9,
+    stats: { ma: 5, st: 3, ag: 3, av: 9 },
     startingSkills: [],
     normal: Normal.G,
     double: Double.ASP,
@@ -16,7 +16,7 @@ export const OrcLineman: Position = prepend({
 
 export const OrcBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 6, st: 3, ag: 3, av: 9,
+    stats: { ma: 6, st: 3, ag: 3, av: 9 },
     startingSkills: ['Block'],
     normal: Normal.GS,
     double: Double.AP,
@@ -26,7 +26,7 @@ export const OrcBlitzer: Position = prepend({
 
 export const OrcBlackOrcBlocker: Position = prepend({
     title: 'Black Orc Blocker',
-    ma: 4, st: 4, ag: 2, av: 9,
+    stats: { ma: 4, st: 4, ag: 2, av: 9 },
     startingSkills: [],
     normal: Normal.GS,
     double: Double.AP,
@@ -36,7 +36,7 @@ export const OrcBlackOrcBlocker: Position = prepend({
 
 export const OrcThrower: Position = prepend({
     title: 'Thrower',
-    ma: 5, st: 3, ag: 3, av: 8,
+    stats: { ma: 5, st: 3, ag: 3, av: 8 },
     startingSkills: ['Pass', 'Sure Hands'],
     normal: Normal.GP,
     double: Double.AS,
@@ -46,7 +46,7 @@ export const OrcThrower: Position = prepend({
 
 export const OrcGoblin: Position = prepend({
     title: 'Goblin',
-    ma: 6, st: 2, ag: 3, av: 7,
+    stats: { ma: 6, st: 2, ag: 3, av: 7 },
     startingSkills: ['Dodge', 'Right Stuff', 'Stunty'],
     normal: Normal.A,
     double: Double.GSP,
@@ -56,7 +56,7 @@ export const OrcGoblin: Position = prepend({
 
 export const OrcTroll: Position = prepend({
     title: 'Troll',
-    ma: 4, st: 5, ag: 1, av: 9,
+    stats: { ma: 4, st: 5, ag: 1, av: 9 },
     startingSkills: ['Loner', 'Always Hungry', 'Mighty Blow', 'Really Stupid', 'Regeneration', 'Throw Team-Mate'],
     normal: Normal.S,
     double: Double.GAP,

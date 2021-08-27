@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const ChaosBeastman: Position = prepend({
     title: 'Beastman',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: ['Horns'],
     normal: Normal.GSM,
     double: Double.AP,
@@ -16,7 +16,7 @@ export const ChaosBeastman: Position = prepend({
 
 export const ChaosWarrior: Position = prepend({
     title: 'Warrior',
-    ma: 5, st: 4, ag: 3, av: 9,
+    stats: { ma: 5, st: 4, ag: 3, av: 9 },
     startingSkills: [],
     normal: Normal.GSM,
     double: Double.AP,
@@ -26,7 +26,7 @@ export const ChaosWarrior: Position = prepend({
 
 export const ChaosMinotaur: Position = prepend({
     title: 'Minotaur',
-    ma: 5, st: 5, ag: 2, av: 8,
+    stats: { ma: 5, st: 5, ag: 2, av: 8 },
     startingSkills: ['Loner', 'Frenzy', 'Horns', 'Mighty Blow', 'Thick Skull', 'Wild Animal'],
     normal: Normal.S,
     double: Double.GAPM,

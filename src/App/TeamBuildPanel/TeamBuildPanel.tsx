@@ -22,6 +22,7 @@ type PlayerRow = WithStats & {
     cost: number
     normal: SkillGroup[],
     double: SkillGroup[],
+    increase: WithStats,
 }
 
 const piecesToPlayerRows: (pieces: Piece[]) => PlayerRow[] =
@@ -36,13 +37,13 @@ const piecesToPlayerRows: (pieces: Piece[]) => PlayerRow[] =
                 startingSkills: piece.positional.startingSkills,
                 addedSkills: piece.addedSkills,
                 cost: pieceCost(piece),
-                ma: piece.positional.ma,
-                st: piece.positional.st,
-                ag: piece.positional.ag,
-                av: piece.positional.av,
+                ma: piece.positional.stats.ma + piece.increase.ma,
+                st: piece.positional.stats.st + piece.increase.st,
+                ag: piece.positional.stats.ag + piece.increase.ag,
+                av: piece.positional.stats.av + piece.increase.av,
                 normal: piece.positional.normal,
                 double: piece.positional.double,
-
+                increase: piece.increase,
             }), piece.count)
         })
 
@@ -62,8 +63,8 @@ const PlayerTable: React.FC<{pieces: Piece[]}> =
                 <Column title='AG' dataIndex='ag'/>
                 <Column title='AV' dataIndex='av'/>
                 <Column title='skills' render={
-                    ({startingSkills, addedSkills, normal, double}: PlayerRow) => <>
-                        <SelectSkills title='' disabled={true} {...{startingSkills, addedSkills, normal, double }}/>
+                    ({startingSkills, addedSkills, normal, double, increase}: PlayerRow) => <>
+                        <SelectSkills title='' disabled={true} {...{startingSkills, addedSkills, normal, double, increase }}/>
                     </>
                 }/>
                 <Column title='TV' dataIndex='cost'/>
@@ -84,9 +85,10 @@ const TeamAssetCount: React.FC<{value: number, increase?: () => void, decrease?:
     ({value, increase, decrease}) => {
         if (increase && decrease) {
             const onStep: (value: number, info: { type: 'up' | 'down'}) => void =
-            (_ ,{type}) => type === 'up' ? increase() : decrease()
+                (_ ,{type}) => type === 'up' ? increase() : decrease()
+
             return (
-                <InputNumber bordered={false} size='large' min={0} style={{width: '100%'}} {...{value, onStep}}/>
+                    <InputNumber bordered={false} size='large' min={0} style={{width: '100%'}} {...{value, onStep}}/>
             )
         }
         return <span>{value}</span>
