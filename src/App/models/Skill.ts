@@ -1,16 +1,7 @@
-import { always, cond, equals, T } from "ramda"
+import { always, cond, T } from "ramda"
 
 const NORMAL_COST = 20
 const DOUBLE_COST = 30
-const AV_COST = 30
-const MA_COST = 30
-const AG_COST = 40
-const ST_COST = 50
-
-// const COACH_COST = 10
-// const CHEERLEADER_COST = 10
-// const FAN_COST = 10
-// const APOTHECARY_COST = 50
 
 export enum SkillGroup {
     General = 'General',
@@ -287,10 +278,6 @@ export const SkillDescriptions: {[key in Skill]?: string} = {
 export const costOfSkill: (doubleGroups: SkillGroup[]) => (skill: Skill) => number =
     (doubleGroups) =>
         cond<Skill, number>([
-            // [equals<Skill>('ST'), always(ST_COST)],
-            // [equals<Skill>('+AG'), always(AG_COST)],
-            // [equals<Skill>('+MA'), always(MA_COST)],
-            // [equals<Skill>('+AV'), always(AV_COST)],
             [skill => groupsToSkills(doubleGroups).includes(skill), always(DOUBLE_COST)],
             [T, always(NORMAL_COST)]
         ])

@@ -1,12 +1,11 @@
-import { Empty, Card, Row, Col, Table, Tag, Select, InputNumber, Input } from "antd";
-import { LabeledValue } from "antd/lib/select";
+import { Empty, Card, Row, Col, Table, Tag, Select, InputNumber } from "antd";
 import Column from "antd/lib/table/Column";
-import { always, concat, cond, includes, isEmpty, join, not, pipe, prop, T, times } from "ramda";
+import { always, cond, includes, isEmpty, join, not, pipe, prop, T, times } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { CloneButton, DeleteButton, Panel, SkillGroupTags } from "../components";
-import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost, Stat, WithStats, IncreaseSkill } from "../models";
+import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, pieceCost, Stat, WithStats, IncreaseSkill } from "../models";
 
 import './PiecesPanel.css'
 
@@ -138,11 +137,6 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
 const includedIn: <T>(list: T[]) => (item: T) => boolean =
     list => item => includes(item)(list)
 
-type SkillTagProps = {
-    key: string,
-    value: Skill,
-}
-
 const increaseSkillFromCount: (stat: Stat) => (countZeroBased: number) => IncreaseSkill =
     stat => count => `${join('', times(always('+'), count + 1))}${stat.toUpperCase()}` as IncreaseSkill
 
@@ -177,8 +171,6 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
             [skillName => groupsToSkills([SkillGroup.Increase]).includes(skillName), always('orange')],
             [T, always('')]
         ])
-
-        type t = LabeledValue // key value label
 
         const value = [...startingSkills, ...addedSkills, ...increaseSkills]
 
