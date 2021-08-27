@@ -222,29 +222,63 @@ export const IncreaseMA: IncreaseSkillMA[] = [
     '+++++MA',
 ]
 
-export type IncreaseSkill =
-    | IncreaseSkillMA
+export type IncreaseSkillST =
     | '+ST'
     | '++ST'
     | '+++ST'
     | '++++ST'
     | '+++++ST'
+
+export const IncreaseST: IncreaseSkillST[] = [
+    '+ST',
+    '++ST',
+    '+++ST',
+    '++++ST',
+    '+++++ST',
+]
+
+export type IncreaseSkillAG =
     | '+AG'
     | '++AG'
     | '+++AG'
     | '++++AG'
     | '+++++AG'
+
+export const IncreaseAG: IncreaseSkillAG[] = [
+    '+AG',
+    '++AG',
+    '+++AG',
+    '++++AG',
+    '+++++AG',
+]
+
+export type IncreaseSkillAV =
     | '+AV'
     | '++AV'
     | '+++AV'
     | '++++AV'
     | '+++++AV'
 
+export const IncreaseAV: IncreaseSkillAV[] = [
+    '+AV',
+    '++AV',
+    '+++AV',
+    '++++AV',
+    '+++++AV',
+]
+
+
+export type IncreaseSkill =
+    | IncreaseSkillMA
+    | IncreaseSkillST
+    | IncreaseSkillAG
+    | IncreaseSkillAV
+
 export const Increase: IncreaseSkill[] = [
     ...IncreaseMA,
-    '+ST',
-    '+AG',
-    '+AV',
+    ...IncreaseST,
+    ...IncreaseAG,
+    ...IncreaseAV,
 ]
 
 export type Skill =
