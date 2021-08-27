@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const DarkElfLineman: Position = prepend({
     title: 'Lineman',
-    ma: 6, st: 3, ag: 4, av: 8,
+    stats: { ma: 6, st: 3, ag: 4, av: 8 },
     startingSkills: [],
     normal: Normal.GA,
     double: Double.SP,
@@ -16,7 +16,7 @@ export const DarkElfLineman: Position = prepend({
 
 export const DarkElfRunner: Position = prepend({
     title: 'Runner',
-    ma: 7, st: 3, ag: 4, av: 7,
+    stats: { ma: 7, st: 3, ag: 4, av: 7 },
     startingSkills: ['Dump-Off'],
     normal: Normal.GAP,
     double: Double.S,
@@ -26,7 +26,7 @@ export const DarkElfRunner: Position = prepend({
 
 export const DarkElfAssassin: Position = prepend({
     title: 'Assassin',
-    ma: 6, st: 3, ag: 4, av: 7,
+    stats: { ma: 6, st: 3, ag: 4, av: 7 },
     startingSkills: ['Shadowing', 'Stab'],
     normal: Normal.GA,
     double: Double.SP,
@@ -36,7 +36,7 @@ export const DarkElfAssassin: Position = prepend({
 
 export const DarkElfBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 7, st: 3, ag: 4, av: 8,
+    stats: { ma: 7, st: 3, ag: 4, av: 8 },
     startingSkills: ['Block'],
     normal: Normal.GA,
     double: Double.SP,
@@ -46,7 +46,7 @@ export const DarkElfBlitzer: Position = prepend({
 
 export const DarkElfWitchElf: Position = prepend({
     title: 'Witch Elf',
-    ma: 7, st: 3, ag: 4, av: 7,
+    stats: { ma: 7, st: 3, ag: 4, av: 7 },
     startingSkills: ['Dodge', 'Frenzy', 'Jump Up'],
     normal: Normal.GA,
     double: Double.SP,

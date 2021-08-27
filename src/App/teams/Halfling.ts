@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const HalflingLineman: Position = prepend({
     title: 'Lineman',
-    ma: 5, st: 2, ag: 3, av: 6,
+    stats: { ma: 5, st: 2, ag: 3, av: 6 },
     startingSkills: ['Dodge', 'Right Stuff', 'Stunty'],
     normal: Normal.A,
     double: Double.GSP,
@@ -16,7 +16,7 @@ export const HalflingLineman: Position = prepend({
 
 export const HalflingTreeman: Position = prepend({
     title: 'Treeman',
-    ma: 4, st: 5, ag: 1, av: 9,
+    stats: { ma: 4, st: 5, ag: 1, av: 9 },
     startingSkills: ['Mighty Blow', 'Stand Firm', 'Strong Arm', 'Take Root', 'Thick Skull', 'Throw Team-Mate', 'Timm-ber!'],
     normal: Normal.S,
     double: Double.GAP,

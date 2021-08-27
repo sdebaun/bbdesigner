@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
-import { Piece, Position, Skill, TeamTypeKey, Upgrade, Upgrades, TeamTypes } from './models'
+import { Piece, Position, Skill, TeamTypeKey, Upgrade, Upgrades, TeamTypes, Stat } from './models'
 import { generateSlug } from 'random-word-slugs'
 import { filter, find, map, pipe, prop, propEq, sortBy } from 'ramda';
 // import { TeamTypes } from './models/TeamType';
@@ -22,6 +22,8 @@ type AppAction =
   | { type: 'removeSkillName', title: string, skill: Skill }
   | { type: 'increaseUpgrade', upgrade: Upgrade }
   | { type: 'decreaseUpgrade', upgrade: Upgrade }
+  | { type: 'increaseStat', title: string, stat: Stat}
+  | { type: 'decreaseStat', title: string, stat: Stat}
 
 const initialState = {
   pieces: [],
@@ -43,7 +45,8 @@ const makePiece: (positional: Position) => Piece =
     title: generateSlug(2),
     addedSkills: [],
     positional,
-    count: 0
+    count: 0,
+    increase: { ma: 0, st: 0, ag: 0, av: 0}
   })
 
 const clonePiece: (piece: Piece) => Piece =
@@ -58,7 +61,7 @@ const reducer: AppReducer =
     console.log(JSON.stringify(action, null, 2))
 
     const next = reduce(prev, action)
-    // console.log(JSON.stringify(next, null, 2))
+    console.log(JSON.stringify(next, null, 2))
 
     return next
   }
@@ -150,6 +153,16 @@ const reduce: AppReducer =
             ...prev.upgrades,
             [action.upgrade]: prev.upgrades[action.upgrade] - 1
           }
+        })
+      case 'increaseStat':
+        return ({
+          ...prev,
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, increase: {...p.increase, [action.stat]: p.increase[action.stat] + 1}}) : p)(prev.pieces))
+        })
+      case 'decreaseStat':
+        return ({
+          ...prev,
+          pieces: sortPieces(map((p: Piece) => p.title === action.title ? ({...p, increase: {...p.increase, [action.stat]: p.increase[action.stat] - 1}}) : p)(prev.pieces))
         })
   
       default: return prev

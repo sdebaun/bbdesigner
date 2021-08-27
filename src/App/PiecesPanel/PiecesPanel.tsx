@@ -1,11 +1,13 @@
 import { Empty, Card, Row, Col, Table, Tag, Select, InputNumber } from "antd";
 import Column from "antd/lib/table/Column";
-import { always, cond, includes, isEmpty, not, pipe, prop, T } from "ramda";
+import { always, cond, includes, isEmpty, join, not, pipe, prop, T, times } from "ramda";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useAppState } from "../AppState";
 import { CloneButton, DeleteButton, Panel, SkillGroupTags } from "../components";
-import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, statsUp, pieceCost } from "../models";
+import { Piece, Position, SkillGroup, Skill, Skills, groupsToSkills, pieceCost, Stat, WithStats, IncreaseSkill } from "../models";
+
+import './PiecesPanel.css'
 
 const defaultStyle: React.CSSProperties = { minHeight: '100%', padding: '8px' }
 const canDropStyle: React.CSSProperties = Object.assign({}, defaultStyle, { backgroundColor: '#FFE' })
@@ -51,13 +53,33 @@ type Stats = {
     av: number,
 }
 
-const StatsTable: React.FC<Stats> =
-    (stats) => {
-        return <Table bordered dataSource={[stats].map(stat => ({...stat, key: 1}))} size='small' pagination={false} style={{height: '100%'}}>
-                <Column title='MA' dataIndex='ma'/>
-                <Column title='ST' dataIndex='st'/>
-                <Column title='AG' dataIndex='ag'/>
-                <Column title='AV' dataIndex='av'/>
+type StatsTableProps = {stats: Stats, increase: Stats, increaseOnClick: (stat: Stat) => void, decreaseOnClick: (stat: Stat) => void}
+
+const StatsTable: React.FC<StatsTableProps> =
+    ({stats, increase, increaseOnClick, decreaseOnClick}) => {
+        const dataSource = [{stats, increase, key: 1}]
+        const onStep: (stat: Stat) => (value: number, info: { type: 'up' | 'down'}) => void =
+            stat =>
+                (_ ,{type}) =>
+                    type === 'up' ? increaseOnClick(stat) : decreaseOnClick(stat)
+
+        return <Table bordered className='stats-table-editable' dataSource={dataSource} size='small' pagination={false} style={{height: '100%'}}>
+                <Column title='MA' render={
+                    (_, {stats: {ma: stat}, increase: {ma: increase}}: StatsTableProps) =>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('ma')} style={{width: '100%'}}/>
+                }/>
+                <Column title='ST' render={
+                    (_, {stats: {st: stat}, increase: {st: increase}}: StatsTableProps) =>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('st')} style={{width: '100%'}}/>
+                }/>
+                <Column title='AG' render={
+                    (_, {stats: {ag: stat}, increase: {ag: increase}}: StatsTableProps) =>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('ag')} style={{width: '100%'}}/>
+                }/>
+                <Column title='AV' render={
+                    (_, {stats: {av: stat}, increase: {av: increase}}: StatsTableProps) =>
+                         <InputNumber min={stat} value={stat + increase} onStep={onStep('av')} style={{width: '100%'}}/>
+                }/>
             </Table>
     }
 
@@ -115,17 +137,24 @@ const PieceCardExtra: React.FC<{piece: Piece}> =
 const includedIn: <T>(list: T[]) => (item: T) => boolean =
     list => item => includes(item)(list)
 
-export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], addedSkills: Skill[], normal: SkillGroup[], double: SkillGroup[], disabled?: boolean}> =
-    ({title, startingSkills, addedSkills, normal, double, disabled = false}) => {
+const increaseSkillFromCount: (stat: Stat) => (countZeroBased: number) => IncreaseSkill =
+    stat => count => `${join('', times(always('+'), count + 1))}${stat.toUpperCase()}` as IncreaseSkill
+
+export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], addedSkills: Skill[], normal: SkillGroup[], double: SkillGroup[], increase: WithStats, disabled?: boolean}> =
+    ({title, startingSkills, addedSkills, normal, double, increase, disabled = false}) => {
         const [, dispatch] = useAppState()
 
-        const value = [...startingSkills, ...addedSkills]
-
+        const increaseSkills: IncreaseSkill[] = [
+            ...times(increaseSkillFromCount('ma'), increase.ma),
+            ...times(increaseSkillFromCount('st'), increase.st),
+            ...times(increaseSkillFromCount('ag'), increase.ag),
+            ...times(increaseSkillFromCount('av'), increase.av),
+        ]
+ 
         const selectedSkillNames = [...startingSkills, ...addedSkills]
 
         const allowedSkillGroups = [...normal, ...double]
 
-        // const skillIsntSelected = (skill: Skill) => !selectedSkillNames.includes(skill)
         const skillIsntSelected: (skill: Skill) => boolean =
             pipe( includedIn(selectedSkillNames), not )
 
@@ -139,14 +168,22 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
             [skillName => startingSkills.includes(skillName), always('')],
             [skillName => groupsToSkills(normal).includes(skillName), always('green')],
             [skillName => groupsToSkills(double).includes(skillName), always('orange')],
+            [skillName => groupsToSkills([SkillGroup.Increase]).includes(skillName), always('orange')],
             [T, always('')]
         ])
+
+        const value = [...startingSkills, ...addedSkills, ...increaseSkills]
+
 
         const onSelect = (skill: Skill) =>
             dispatch({type: 'addSkillName', title, skill})
 
         const onClose = (skill: Skill) =>
             dispatch({type: 'removeSkillName', title, skill})
+
+        const isStartingOrIncrease: (skill: Skill) => boolean =
+            skill =>
+                startingSkills.includes(skill) || includedIn(increaseSkills)(skill as IncreaseSkill)
 
         return (
             <Select<Skill[]>
@@ -157,20 +194,26 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
                 size='middle'
                 bordered={false}
                 style={{width: '100%', margin: -6}}
-                tagRender={({value}) =>
-                    <Tag onClose={() => onClose(value as Skill)} closable={!startingSkills.includes(value as Skill) && !disabled} color={colorForSkillName(value as Skill)}>{value}</Tag>
+                tagRender={({label, value}) =>
+                    <Tag
+                        onClose={() => onClose(value as Skill)}
+                        closable={!isStartingOrIncrease(value as Skill) && !disabled}
+                        color={colorForSkillName(value as Skill)}
+                        >
+                        {value}
+                    </Tag>
                 }
                 onSelect={onSelect}
                 disabled={disabled}
                 >
                 {
-                    Object.values(SkillGroup).map(skillGroup => {
+                    [SkillGroup.General, SkillGroup.Strength, SkillGroup.Agility, SkillGroup.Passing, SkillGroup.Mutation].map(skillGroup => {
                         if (!allowedSkillGroups.includes(skillGroup)) return ''
+                        const selectableSkills = Skills[skillGroup].filter(skillIsntSelected)
                         return (
                             <Select.OptGroup key={skillGroup} label={<b style={{color: colorForSkillGroup(skillGroup)}}>{skillGroup}</b>}>
                                 {
-                                    Skills[skillGroup]
-                                        .filter(skillIsntSelected)
+                                    selectableSkills
                                         .map((key) => <Select.Option {...{key, value: key}}>{key}</Select.Option>)
                                 }
                             </Select.OptGroup>
@@ -183,12 +226,21 @@ export const SelectSkills: React.FC<{title: string, startingSkills: Skill[], add
 
 const PieceCard: React.FC<{piece: Piece}> =
     ({piece}) => {
-        const stats = statsUp(piece.positional, piece.addedSkills)
-        return (
+        const [, dispatch] = useAppState()
+        // const stats = statsUp(piece.positional, piece.addedSkills)
+        // const stats = piece.positional.stats
+        const increaseOnClick: (stat: Stat) => void =
+            stat =>
+                dispatch({type: 'increaseStat', title: piece.title, stat})
+
+        const decreaseOnClick: (stat: Stat) => void =
+            stat =>
+                dispatch({type: 'decreaseStat', title: piece.title, stat})
+            return (
                 <Card type='inner' size='small' title={<PieceCardTitle {...{piece}}/>} extra={<PieceCardExtra {...{piece}}/>} style={{marginBottom: '16px'}} bodyStyle={{padding: '0px 6px'}} headStyle={{backgroundColor:'#888', color: '#FFF'}}>
                     <Row gutter={12} style={{padding: 0}}>
                         <Col span={10} style={{padding: '4px', height: '100%'}}>
-                            <StatsTable {...stats}/>
+                            <StatsTable {...{stats: piece.positional.stats, increase: piece.increase, increaseOnClick, decreaseOnClick}}/>
                         </Col>
                         <Col span={14}>
                             <div style={{ padding: '6px 0'}}>
@@ -201,6 +253,7 @@ const PieceCard: React.FC<{piece: Piece}> =
                                     addedSkills={piece.addedSkills}
                                     normal={piece.positional.normal}
                                     double={piece.positional.double}
+                                    increase={piece.increase}
                                     />
                             </div>
                         </Col>                            

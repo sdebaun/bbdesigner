@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const SkavenLineman: Position = prepend({
     title: 'Lineman',
-    ma: 7, st: 3, ag: 3, av: 7,
+    stats: { ma: 7, st: 3, ag: 3, av: 7 },
     startingSkills: [],
     normal: Normal.G,
     double: Double.ASPM,
@@ -16,7 +16,7 @@ export const SkavenLineman: Position = prepend({
 
 export const SkavenBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: ['Block'],
     normal: Normal.GS,
     double: Double.AMP,
@@ -26,7 +26,7 @@ export const SkavenBlitzer: Position = prepend({
 
 export const SkavenGutterRunner: Position = prepend({
     title: 'Gutter Runner',
-    ma: 9, st: 2, ag: 4, av: 7,
+    stats: { ma: 9, st: 2, ag: 4, av: 7 },
     startingSkills: ['Dodge'],
     normal: Normal.GA,
     double: Double.SPM,
@@ -36,7 +36,7 @@ export const SkavenGutterRunner: Position = prepend({
 
 export const SkavenThrower: Position = prepend({
     title: 'Thrower',
-    ma: 7, st: 3, ag: 3, av: 7,
+    stats: { ma: 7, st: 3, ag: 3, av: 7 },
     startingSkills: [],
     normal: Normal.GP,
     double: Double.ASM,
@@ -46,7 +46,7 @@ export const SkavenThrower: Position = prepend({
 
 export const SkavenRatOgre: Position = prepend({
     title: 'Rat Ogre',
-    ma: 4, st: 5, ag: 1, av: 9,
+    stats: { ma: 4, st: 5, ag: 1, av: 9 },
     startingSkills: ['Loner', 'Frenzy', 'Mighty Blow', 'Prehensile Tail', 'Wild Animal'],
     normal: Normal.S,
     double: Double.GAPM,

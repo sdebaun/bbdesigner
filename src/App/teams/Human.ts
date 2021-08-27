@@ -6,7 +6,7 @@ const prepend = prependPositionTitle(title)
 
 export const HumanLineman: Position = prepend({
     title: 'Lineman',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: [],
     normal: Normal.G,
     double: Double.ASP,
@@ -16,7 +16,7 @@ export const HumanLineman: Position = prepend({
 
 export const HumanCatcher: Position = prepend({
     title: 'Catcher',
-    ma: 8, st: 2, ag: 3, av: 7,
+    stats: { ma: 8, st: 2, ag: 3, av: 7 },
     startingSkills: ['Catch', 'Dodge'],
     normal: Normal.GA,
     double: Double.SP,
@@ -26,7 +26,7 @@ export const HumanCatcher: Position = prepend({
 
 export const HumanThrower: Position = prepend({
     title: 'Thrower',
-    ma: 6, st: 3, ag: 3, av: 8,
+    stats: { ma: 6, st: 3, ag: 3, av: 8 },
     startingSkills: ['Pass', 'Sure Hands'],
     normal: Normal.GP,
     double: Double.AS,
@@ -36,7 +36,7 @@ export const HumanThrower: Position = prepend({
 
 export const HumanBlitzer: Position = prepend({
     title: 'Blitzer',
-    ma: 7, st: 3, ag: 3, av: 8,
+    stats: { ma: 7, st: 3, ag: 3, av: 8 },
     startingSkills: ['Block'],
     normal: Normal.GS,
     double: Double.AP,
@@ -46,7 +46,7 @@ export const HumanBlitzer: Position = prepend({
 
 export const HumanOgre: Position = prepend({
     title: 'Ogre',
-    ma: 5, st: 5, ag: 2, av: 9,
+    stats: { ma: 5, st: 5, ag: 2, av: 9 },
     startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Thick Skull', 'Throw Team-Mate'],
     normal: Normal.S,
     double: Double.GAP,

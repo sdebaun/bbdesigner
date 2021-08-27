@@ -1,16 +1,7 @@
-import { always, cond, equals, T } from "ramda"
+import { always, cond, T } from "ramda"
 
 const NORMAL_COST = 20
 const DOUBLE_COST = 30
-const AV_COST = 30
-const MA_COST = 30
-const AG_COST = 40
-const ST_COST = 50
-
-// const COACH_COST = 10
-// const CHEERLEADER_COST = 10
-// const FAN_COST = 10
-// const APOTHECARY_COST = 50
 
 export enum SkillGroup {
     General = 'General',
@@ -216,17 +207,78 @@ export const Extraordinary: ExtraordinarySkill[] = [
     'Wild Animal',
 ]
 
+export type IncreaseSkillMA = 
+| '+MA'
+| '++MA'
+| '+++MA'
+| '++++MA'
+| '+++++MA'
+
+export const IncreaseMA: IncreaseSkillMA[] = [
+    '+MA',
+    '++MA',
+    '+++MA',
+    '++++MA',
+    '+++++MA',
+]
+
+export type IncreaseSkillST =
+    | '+ST'
+    | '++ST'
+    | '+++ST'
+    | '++++ST'
+    | '+++++ST'
+
+export const IncreaseST: IncreaseSkillST[] = [
+    '+ST',
+    '++ST',
+    '+++ST',
+    '++++ST',
+    '+++++ST',
+]
+
+export type IncreaseSkillAG =
+    | '+AG'
+    | '++AG'
+    | '+++AG'
+    | '++++AG'
+    | '+++++AG'
+
+export const IncreaseAG: IncreaseSkillAG[] = [
+    '+AG',
+    '++AG',
+    '+++AG',
+    '++++AG',
+    '+++++AG',
+]
+
+export type IncreaseSkillAV =
+    | '+AV'
+    | '++AV'
+    | '+++AV'
+    | '++++AV'
+    | '+++++AV'
+
+export const IncreaseAV: IncreaseSkillAV[] = [
+    '+AV',
+    '++AV',
+    '+++AV',
+    '++++AV',
+    '+++++AV',
+]
+
+
 export type IncreaseSkill =
-    | 'MA+'
-    | 'ST+'
-    | 'AG+'
-    | 'AV+'
+    | IncreaseSkillMA
+    | IncreaseSkillST
+    | IncreaseSkillAG
+    | IncreaseSkillAV
 
 export const Increase: IncreaseSkill[] = [
-    'MA+',
-    'ST+',
-    'AG+',
-    'AV+',
+    ...IncreaseMA,
+    ...IncreaseST,
+    ...IncreaseAG,
+    ...IncreaseAV,
 ]
 
 export type Skill =
@@ -260,10 +312,6 @@ export const SkillDescriptions: {[key in Skill]?: string} = {
 export const costOfSkill: (doubleGroups: SkillGroup[]) => (skill: Skill) => number =
     (doubleGroups) =>
         cond<Skill, number>([
-            [equals<Skill>('ST+'), always(ST_COST)],
-            [equals<Skill>('AG+'), always(AG_COST)],
-            [equals<Skill>('MA+'), always(MA_COST)],
-            [equals<Skill>('AV+'), always(AV_COST)],
             [skill => groupsToSkills(doubleGroups).includes(skill), always(DOUBLE_COST)],
             [T, always(NORMAL_COST)]
         ])
@@ -290,18 +338,18 @@ export const Normal = {
 }
 
 export const Double = {
-    S: [SkillGroup.Increase, SkillGroup.Strength],
-    ASP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing],
-    ASPM: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
-    SPM: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
-    ASM: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Mutation],
-    AP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Passing],
-    AS: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Strength],
-    SP: [SkillGroup.Increase, SkillGroup.Strength, SkillGroup.Passing],
-    AMP: [SkillGroup.Increase, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
-    GAPM: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
-    P: [SkillGroup.Increase, SkillGroup.Passing],
-    GAP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
-    GSP: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Strength, SkillGroup.Passing],
-    GS: [SkillGroup.Increase, SkillGroup.General, SkillGroup.Strength],
+    S: [SkillGroup.Strength],
+    ASP: [SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing],
+    ASPM: [SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
+    SPM: [SkillGroup.Strength, SkillGroup.Passing, SkillGroup.Mutation],
+    ASM: [SkillGroup.Agility, SkillGroup.Strength, SkillGroup.Mutation],
+    AP: [SkillGroup.Agility, SkillGroup.Passing],
+    AS: [SkillGroup.Agility, SkillGroup.Strength],
+    SP: [SkillGroup.Strength, SkillGroup.Passing],
+    AMP: [SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    GAPM: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Mutation, SkillGroup.Passing],
+    P: [SkillGroup.Passing],
+    GAP: [SkillGroup.General, SkillGroup.Agility, SkillGroup.Passing],
+    GSP: [SkillGroup.General, SkillGroup.Strength, SkillGroup.Passing],
+    GS: [SkillGroup.General, SkillGroup.Strength],
 }

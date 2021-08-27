@@ -1,12 +1,14 @@
 import { lensProp, over, replace } from "ramda";
 import { Skill, SkillGroup } from "./Skill";
+import { WithStats } from "./Stat";
 
 export type Position = {
     title: string
-    ma: number
-    st: number
-    ag: number
-    av: number
+    stats: WithStats,
+    // ma: number
+    // st: number
+    // ag: number
+    // av: number
     normal: SkillGroup[]
     double: SkillGroup[]
     startingSkills: Skill[]
