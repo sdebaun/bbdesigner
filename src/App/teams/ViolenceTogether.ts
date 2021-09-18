@@ -7,7 +7,7 @@ import { Ogre } from './Ogre'
 
 export const ViolenceTogether: TeamType = {
     title: 'Violence Together',
-    upgradeCosts: {'Team Reroll': 70, ...BASE_UPGRADE_COSTS},
+    upgradeCosts: {'Team Reroll': 60, ...BASE_UPGRADE_COSTS},
     positions: [
         ...Orc.positions,
         GoblinTroll,

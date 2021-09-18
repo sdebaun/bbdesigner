@@ -23,6 +23,10 @@ import { Underworld } from './Underworld'
 import { Human } from './Human'
 import { Dwarf } from './Dwarf'
 import { Halfling } from './Halfling'
+import { WoodElf } from './WoodElf'
+import { AllianceOfGoodness } from './AllianceOfGoodness'
+import { Nurgle } from './Nurgle'
+import { ChaosGodsSelection } from './ChaosGodsSelection'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -48,6 +52,10 @@ export type TeamTypeKey =
     | 'Human'
     | 'Dwarf'
     | 'Halfling'
+    | 'WoodElf'
+    | 'AllianceOfGoodness'
+    | 'Nurgle'
+    | 'ChaosGodsSelection'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -73,4 +81,8 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     Human,
     Dwarf,
     Halfling,
+    WoodElf,
+    AllianceOfGoodness,
+    Nurgle,
+    ChaosGodsSelection,
 }

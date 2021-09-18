@@ -26,7 +26,7 @@ export const BrettonianYeoman: Position = prepend({
 
 export const BrettonianBlitzer: Position = prepend({
     title: 'Blitzer',
-    stats: { ma: 7, st: 3, ag: 4, av: 8 },
+    stats: { ma: 7, st: 3, ag: 3, av: 8 },
     startingSkills: ['Block', 'Dauntless', 'Catch'],
     normal: Normal.GAP,
     double: Double.S,

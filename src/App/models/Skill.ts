@@ -329,6 +329,7 @@ export const Normal = {
     GS: [SkillGroup.General, SkillGroup.Strength],
     GA: [SkillGroup.General, SkillGroup.Agility],
     GP: [SkillGroup.General, SkillGroup.Passing],
+    GM: [SkillGroup.General, SkillGroup.Mutation],
     S: [SkillGroup.Strength],
     A: [SkillGroup.Agility],
     AP: [SkillGroup.Agility, SkillGroup.Passing],
