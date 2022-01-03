@@ -27,6 +27,7 @@ import { WoodElf } from './WoodElf'
 import { AllianceOfGoodness } from './AllianceOfGoodness'
 import { Nurgle } from './Nurgle'
 import { ChaosGodsSelection } from './ChaosGodsSelection'
+import { UnionOfSmallPeople } from './UnionOfSmallPeople'
 
 export type TeamTypeKey =
     | 'ChaosDwarf'
@@ -56,6 +57,7 @@ export type TeamTypeKey =
     | 'AllianceOfGoodness'
     | 'Nurgle'
     | 'ChaosGodsSelection'
+    | 'UnionOfSmallPeople'
 
 export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     ChaosDwarf,
@@ -85,4 +87,5 @@ export const TeamTypes: {[k in TeamTypeKey]: TeamType} = {
     AllianceOfGoodness,
     Nurgle,
     ChaosGodsSelection,
+    UnionOfSmallPeople,
 }
