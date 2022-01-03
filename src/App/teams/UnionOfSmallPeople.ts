@@ -2,7 +2,7 @@ import { BASE_UPGRADE_COSTS, TeamType } from "../models";
 
 import { OgreOgre, OgreGnoblar } from './Ogre'
 import { GoblinGoblin, GoblinFanatic, GoblinPogoer, GoblinLooney, GoblinBombardier, GoblinTroll } from './Goblin'
-import { NecromanticFleshGolem, NecromanticWerewolf } from './Necromantic'
+import { HalflingLineman, HalflingTreeman } from './Halfling'
 
 export const UnionOfSmallPeople: TeamType = {
     title: 'Union of Small People',
