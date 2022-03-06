@@ -2,7 +2,7 @@ import { BASE_UPGRADE_COSTS, TeamType } from "../models";
 
 import { ChaosDwarf } from "./ChaosDwarf"
 import { Orc } from "./Orc"
-import { GoblinTroll } from "./Goblin";
+import { Goblin } from "./Goblin";
 import { Skaven } from "./Skaven";
 import { Ogre } from "./Ogre";
 
@@ -14,7 +14,7 @@ export const FarEastAssociation: TeamType = {
     positions: [
         ...ChaosDwarf.positions,
         ...Orc.positions,
-        GoblinTroll,
+        ...Goblin.positions,
         ...Skaven.positions,
         ...Ogre.positions,
     ]

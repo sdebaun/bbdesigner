@@ -16,7 +16,7 @@ export const SkavenLineman: Position = prepend({
 
 export const SkavenBlitzer: Position = prepend({
     title: 'Blitzer',
-    stats: { ma: 6, st: 3, ag: 3, av: 8 },
+    stats: { ma: 7, st: 3, ag: 3, av: 8 },
     startingSkills: ['Block'],
     normal: Normal.GS,
     double: Double.AMP,

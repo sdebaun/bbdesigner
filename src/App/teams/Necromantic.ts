@@ -25,7 +25,7 @@ export const NecromanticFleshGolem: Position = prepend({
 
 export const NecromanticWerewolf: Position = prepend({
     title: 'Werewolf',
-    stats: { ma: 3, st: 5, ag: 1, av: 9 },
+    stats: { ma: 8, st: 3, ag: 3, av: 8 },
     startingSkills: ['Claw', 'Frenzy', 'Regeneration'],
     normal: Normal.GA,
     double: Double.SP,
