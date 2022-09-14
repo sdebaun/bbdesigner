@@ -1,67 +1,56 @@
 import { BASE_UPGRADE_COSTS, TeamType, Position, Normal, Double, prependPositionTitle } from "../models";
 
-const title = 'Human'
+const title = 'Kislev'
 
 const prepend = prependPositionTitle(title)
 
-export const HumanLineman: Position = prepend({
+export const KislevLineman: Position = prepend({
     title: 'Lineman',
     stats: { ma: 6, st: 3, ag: 3, av: 8 },
-    startingSkills: [],
+    startingSkills: ['Leap', 'VLL'],
     normal: Normal.G,
     double: Double.ASP,
-    cost: 50,
+    cost: 60,
     max: 16,
 })
 
-export const HumanCatcher: Position = prepend({
+export const KislevCatcher: Position = prepend({
     title: 'Catcher',
-    stats: { ma: 8, st: 2, ag: 3, av: 7 },
-    startingSkills: ['Catch', 'Dodge'],
+    stats: { ma: 7, st: 2, ag: 4, av: 7 },
+    startingSkills: ['Diving Catch', 'Leap', 'VLL'],
     normal: Normal.GA,
     double: Double.SP,
-    cost: 60,
+    cost: 80,
     max: 4,
 })
 
-export const HumanThrower: Position = prepend({
-    title: 'Thrower',
-    stats: { ma: 6, st: 3, ag: 3, av: 8 },
-    startingSkills: ['Pass', 'Sure Hands'],
-    normal: Normal.GP,
-    double: Double.AS,
-    cost: 70,
-    max: 2,
-})
-
-export const HumanBlitzer: Position = prepend({
+export const KislevBlitzer: Position = prepend({
     title: 'Blitzer',
     stats: { ma: 7, st: 3, ag: 3, av: 8 },
-    startingSkills: ['Block'],
-    normal: Normal.GS,
-    double: Double.AP,
-    cost: 90,
+    startingSkills: ['Diving Tackle', 'Jump Up', 'Leap', 'VLL'],
+    normal: Normal.GAS,
+    double: Double.P,
+    cost: 110,
     max: 4,
 })
 
-export const HumanOgre: Position = prepend({
-    title: 'Ogre',
-    stats: { ma: 5, st: 5, ag: 2, av: 9 },
-    startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Thick Skull', 'Throw Team-Mate'],
+export const KislevTamedBear: Position = prepend({
+    title: 'Tamed Bear',
+    stats: { ma: 6, st: 5, ag: 1, av: 9 },
+    startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Thick Skull', 'Prehensile Chain(Tail)'],
     normal: Normal.S,
     double: Double.GAP,
     cost: 140,
     max: 1,
 })
 
-export const Human: TeamType = {
+export const Kislev: TeamType = {
     title,
-    upgradeCosts: {'Team Reroll': 60, ...BASE_UPGRADE_COSTS},
+    upgradeCosts: {'Team Reroll': 50, ...BASE_UPGRADE_COSTS},
     positions: [
-        HumanLineman,
-        HumanBlitzer,
-        HumanThrower,
-        HumanCatcher,
-        HumanOgre
+        KislevLineman,
+        KislevBlitzer,
+        KislevCatcher,
+        KislevTamedBear
     ]
 }
