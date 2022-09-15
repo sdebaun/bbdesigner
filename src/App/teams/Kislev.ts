@@ -7,7 +7,7 @@ const prepend = prependPositionTitle(title)
 export const KislevLineman: Position = prepend({
     title: 'Lineman',
     stats: { ma: 6, st: 3, ag: 3, av: 8 },
-    startingSkills: ['Leap', 'VLL'],
+    startingSkills: ['Leap', 'Very Long Legs'],
     normal: Normal.G,
     double: Double.ASP,
     cost: 60,
@@ -17,7 +17,7 @@ export const KislevLineman: Position = prepend({
 export const KislevCatcher: Position = prepend({
     title: 'Catcher',
     stats: { ma: 7, st: 2, ag: 4, av: 7 },
-    startingSkills: ['Diving Catch', 'Leap', 'VLL'],
+    startingSkills: ['Diving Catch', 'Leap', 'Very Long Legs'],
     normal: Normal.GA,
     double: Double.SP,
     cost: 80,
@@ -27,7 +27,7 @@ export const KislevCatcher: Position = prepend({
 export const KislevBlitzer: Position = prepend({
     title: 'Blitzer',
     stats: { ma: 7, st: 3, ag: 3, av: 8 },
-    startingSkills: ['Diving Tackle', 'Jump Up', 'Leap', 'VLL'],
+    startingSkills: ['Diving Tackle', 'Jump Up', 'Leap', 'Very Long Legs'],
     normal: Normal.GAS,
     double: Double.P,
     cost: 110,
