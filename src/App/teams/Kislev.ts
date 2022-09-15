@@ -37,7 +37,7 @@ export const KislevBlitzer: Position = prepend({
 export const KislevTamedBear: Position = prepend({
     title: 'Tamed Bear',
     stats: { ma: 6, st: 5, ag: 1, av: 9 },
-    startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Thick Skull', 'Prehensile Chain(Tail)'],
+    startingSkills: ['Loner', 'Bone-Head', 'Mighty Blow', 'Thick Skull', 'Prehensile Tail'],
     normal: Normal.S,
     double: Double.GAP,
     cost: 140,
